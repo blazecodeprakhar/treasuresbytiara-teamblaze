@@ -292,6 +292,8 @@
                   "settings": {
                     "menu": "main-menu",
                     "heading": "Explore",
+                    "append_about_link": true,
+                    "append_about_label": "ABOUT US",
                     "menu_spacing": 12,
                     "show_as_accordion": true,
                     "accordion_icon": "caret",

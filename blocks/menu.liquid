@@ -50,15 +50,44 @@
       </summary>
 
       <div class="details-content">
-        {% if menu %}
+        {% if menu or block.settings.append_about_link %}
+          {%- liquid
+            assign has_about_in_menu = false
+            if menu
+              for link in menu.links
+                assign title_down = link.title | downcase | strip
+                if link.url contains '/about' or title_down == 'about' or title_down == 'about us'
+                  assign has_about_in_menu = true
+                  break
+                endif
+              endfor
+            endif
+
+            assign about_page_url = ''
+            if block.settings.append_about_link and has_about_in_menu == false
+              capture about_page_url
+                render 'resolve-page-url', handles: 'about-us,about,our-story', fallback: '/pages/about-us'
+              endcapture
+              assign about_page_url = about_page_url | strip
+            endif
+          -%}
           <ul class="list-unstyled">
-            {% for link in menu.links %}
+            {% if menu %}
+              {% for link in menu.links %}
+                <li class="menu__item {{ block.settings.link_preset }}">
+                  <a href="{{ link.url }}">
+                    {{ link.title }}
+                  </a>
+                </li>
+              {% endfor %}
+            {% endif %}
+            {% if about_page_url != blank %}
               <li class="menu__item {{ block.settings.link_preset }}">
-                <a href="{{ link.url }}">
-                  {{ link.title }}
+                <a href="{{ about_page_url }}">
+                  {{ block.settings.append_about_label | default: 'ABOUT US' | escape }}
                 </a>
               </li>
-            {% endfor %}
+            {% endif %}
           </ul>
         {% endif %}
       </div>
@@ -143,6 +172,19 @@
       "type": "text",
       "id": "heading",
       "label": "t:settings.heading"
+    },
+    {
+      "type": "checkbox",
+      "id": "append_about_link",
+      "label": "Include About Us link",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "append_about_label",
+      "label": "About Us link label",
+      "default": "ABOUT US",
+      "visible_if": "{{ block.settings.append_about_link == true }}"
     },
     {
       "type": "header",
