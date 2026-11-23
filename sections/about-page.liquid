@@ -3,6 +3,18 @@
   assign phone_href = phone_raw | remove: ' ' | remove: '-' | remove: '(' | remove: ')'
   assign email_clean = section.settings.studio_email | strip
   assign event_tags = section.settings.events_tags | split: ','
+  assign has_collection_cards = false
+  assign has_lookbook_cards = false
+  assign has_faq_items = false
+  for block in section.blocks
+    if block.type == 'collection_card'
+      assign has_collection_cards = true
+    elsif block.type == 'lookbook_card'
+      assign has_lookbook_cards = true
+    elsif block.type == 'faq_item'
+      assign has_faq_items = true
+    endif
+  endfor
 %}
 
 {% # theme-check-disable %}
@@ -70,7 +82,7 @@
             | image_url: width: 1200
             | image_tag:
               widths: '400, 600, 800, 1000, 1200',
-              sizes: '(min-width: 900px) 44vw, 100vw',
+              sizes: '(min-width: 1024px) 42vw, 100vw',
               class: 'about-hero__img',
               loading: 'eager'
           }}
@@ -94,7 +106,32 @@
       {%- endif -%}
     </div>
 
-    {%- comment -%} 2. Story & Three Brand Pillars {%- endcomment -%}
+    {%- comment -%} 2. Brand Highlights / Stats Strip {%- endcomment -%}
+    {%- if section.settings.stat_1_value != blank or section.settings.stat_2_value != blank or section.settings.stat_3_value != blank or section.settings.stat_4_value != blank -%}
+      <div class="about-stats" aria-label="Brand highlights">
+        {%- assign stat_indices = '1,2,3,4' | split: ',' -%}
+        {%- for idx in stat_indices -%}
+          {%- liquid
+            assign val_key = 'stat_' | append: idx | append: '_value'
+            assign lbl_key = 'stat_' | append: idx | append: '_label'
+            assign stat_val = section.settings[val_key]
+            assign stat_lbl = section.settings[lbl_key]
+          -%}
+          {%- if stat_val != blank or stat_lbl != blank -%}
+            <div class="about-stat">
+              {%- if stat_val != blank -%}
+                <p class="about-stat__value">{{ stat_val | escape }}</p>
+              {%- endif -%}
+              {%- if stat_lbl != blank -%}
+                <p class="about-stat__label">{{ stat_lbl | escape }}</p>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} 3. Brand Story, Atelier Feature Image & Three Pillars {%- endcomment -%}
     <div class="about-story">
       <article class="about-story__card">
         {%- if section.settings.story_eyebrow != blank -%}
@@ -107,6 +144,23 @@
         {%- endif -%}
         {%- if section.settings.story_text != blank -%}
           <div class="about-story__rte rte">{{ section.settings.story_text }}</div>
+        {%- endif -%}
+
+        {%- if section.settings.story_image != blank -%}
+          <figure class="about-story__media">
+            {{
+              section.settings.story_image
+              | image_url: width: 1000
+              | image_tag:
+                widths: '400, 600, 800, 1000',
+                sizes: '(min-width: 1024px) 48vw, 100vw',
+                class: 'about-story__img',
+                loading: 'lazy'
+            }}
+            {%- if section.settings.story_image_caption != blank -%}
+              <figcaption class="about-story__caption">{{ section.settings.story_image_caption | escape }}</figcaption>
+            {%- endif -%}
+          </figure>
         {%- endif -%}
       </article>
 
@@ -164,7 +218,71 @@
       </div>
     </div>
 
-    {%- comment -%} 3. Bespoke 4-Step Journey {%- endcomment -%}
+    {%- comment -%} 4. Editorial Lookbook Photo Gallery {%- endcomment -%}
+    {%- if has_lookbook_cards -%}
+      <div class="about-section-block">
+        <header class="about-section-header">
+          {%- if section.settings.lookbook_eyebrow != blank -%}
+            <p class="about-eyebrow">
+              <span>{{ section.settings.lookbook_eyebrow | escape }}</span>
+            </p>
+          {%- endif -%}
+          {%- if section.settings.lookbook_heading != blank -%}
+            <h2 class="about-heading">{{ section.settings.lookbook_heading | escape }}</h2>
+          {%- endif -%}
+          {%- if section.settings.lookbook_subtitle != blank -%}
+            <p class="about-subheading">{{ section.settings.lookbook_subtitle | escape }}</p>
+          {%- endif -%}
+        </header>
+
+        <div class="about-lookbook">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'lookbook_card' -%}
+              {%- assign look_tag = 'div' -%}
+              {%- if block.settings.link != blank -%}
+                {%- assign look_tag = 'a' -%}
+              {%- endif -%}
+              <{{ look_tag }}
+                {% if block.settings.link != blank %}
+                  href="{{ block.settings.link }}"
+                {% endif %}
+                class="about-lookbook-card"
+                {{ block.shopify_attributes }}
+              >
+                {%- if block.settings.image != blank -%}
+                  <div class="about-lookbook-card__media">
+                    {{
+                      block.settings.image
+                      | image_url: width: 800
+                      | image_tag:
+                        widths: '300, 500, 800',
+                        sizes: '(min-width: 1024px) 23vw, (min-width: 600px) 46vw, 92vw',
+                        class: 'about-lookbook-card__img',
+                        loading: 'lazy'
+                    }}
+                    {%- if block.settings.badge != blank -%}
+                      <span class="about-lookbook-card__badge">{{ block.settings.badge | escape }}</span>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+                {%- if block.settings.title != blank or block.settings.caption != blank -%}
+                  <div class="about-lookbook-card__body">
+                    {%- if block.settings.title != blank -%}
+                      <h3 class="about-lookbook-card__title">{{ block.settings.title | escape }}</h3>
+                    {%- endif -%}
+                    {%- if block.settings.caption != blank -%}
+                      <p class="about-lookbook-card__caption">{{ block.settings.caption | escape }}</p>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+              </{{ look_tag }}>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} 5. Bespoke 4-Step Journey {%- endcomment -%}
     <div class="about-section-block">
       <header class="about-section-header">
         {%- if section.settings.process_eyebrow != blank -%}
@@ -186,11 +304,26 @@
           {%- liquid
             assign title_key = 'step_' | append: idx | append: '_title'
             assign text_key = 'step_' | append: idx | append: '_text'
+            assign img_key = 'step_' | append: idx | append: '_image'
             assign step_title = section.settings[title_key]
             assign step_text = section.settings[text_key]
+            assign step_image = section.settings[img_key]
           -%}
           {%- if step_title != blank or step_text != blank -%}
             <article class="about-step">
+              {%- if step_image != blank -%}
+                <div class="about-step__media">
+                  {{
+                    step_image
+                    | image_url: width: 600
+                    | image_tag:
+                      widths: '240, 400, 600',
+                      sizes: '(min-width: 1024px) 22vw, (min-width: 750px) 44vw, 88vw',
+                      class: 'about-step__img',
+                      loading: 'lazy'
+                  }}
+                </div>
+              {%- endif -%}
               <span class="about-step__num" aria-hidden="true">0{{ idx }}</span>
               {%- if step_title != blank -%}
                 <h3 class="about-step__title">{{ step_title | escape }}</h3>
@@ -204,8 +337,8 @@
       </div>
     </div>
 
-    {%- comment -%} 4. Curated Collections Strip {%- endcomment -%}
-    {%- if section.blocks.size > 0 -%}
+    {%- comment -%} 6. Curated Collections Strip (with automatic collection thumbnails) {%- endcomment -%}
+    {%- if has_collection_cards -%}
       <div class="about-section-block">
         <header class="about-section-header">
           {%- if section.settings.collections_eyebrow != blank -%}
@@ -224,12 +357,28 @@
         <div class="about-collections">
           {%- for block in section.blocks -%}
             {%- if block.type == 'collection_card' -%}
-              {%- assign card_url = block.settings.link | default: block.settings.collection.url | default: '/collections/all-products' -%}
+              {%- liquid
+                assign card_url = block.settings.link | default: block.settings.collection.url | default: '/collections/all-products'
+                assign card_img = block.settings.image | default: block.settings.collection.featured_image | default: block.settings.collection.products.first.featured_image
+              -%}
               <a
                 href="{{ card_url }}"
                 class="about-collection-card"
                 {{ block.shopify_attributes }}
               >
+                {%- if card_img != blank -%}
+                  <div class="about-collection-card__media">
+                    {{
+                      card_img
+                      | image_url: width: 720
+                      | image_tag:
+                        widths: '280, 480, 720',
+                        sizes: '(min-width: 1024px) 30vw, 46vw',
+                        class: 'about-collection-card__img',
+                        loading: 'lazy'
+                    }}
+                  </div>
+                {%- endif -%}
                 <div class="about-collection-card__top">
                   <h3 class="about-collection-card__title">
                     {{ block.settings.title | default: block.settings.collection.title | escape }}
@@ -246,7 +395,7 @@
       </div>
     {%- endif -%}
 
-    {%- comment -%} 5. Events & Trunk Shows Showcase {%- endcomment -%}
+    {%- comment -%} 7. Events & Trunk Shows Showcase {%- endcomment -%}
     {%- if section.settings.events_heading != blank or section.settings.events_text != blank -%}
       <article class="about-events{% if section.settings.events_image != blank %} about-events--with-media{% endif %}">
         <div class="about-events__body">
@@ -281,7 +430,7 @@
               | image_url: width: 1000
               | image_tag:
                 widths: '400, 600, 800, 1000',
-                sizes: '(min-width: 900px) 38vw, 100vw',
+                sizes: '(min-width: 1024px) 36vw, 100vw',
                 class: 'about-events__img',
                 loading: 'lazy'
             }}
@@ -290,7 +439,42 @@
       </article>
     {%- endif -%}
 
-    {%- comment -%} 6. Mumbai Studio & Concierge CTA Banner {%- endcomment -%}
+    {%- comment -%} 8. Frequently Asked Questions & Studio Guide {%- endcomment -%}
+    {%- if has_faq_items -%}
+      <div class="about-section-block">
+        <header class="about-section-header">
+          {%- if section.settings.faq_eyebrow != blank -%}
+            <p class="about-eyebrow">
+              <span>{{ section.settings.faq_eyebrow | escape }}</span>
+            </p>
+          {%- endif -%}
+          {%- if section.settings.faq_heading != blank -%}
+            <h2 class="about-heading">{{ section.settings.faq_heading | escape }}</h2>
+          {%- endif -%}
+          {%- if section.settings.faq_subtitle != blank -%}
+            <p class="about-subheading">{{ section.settings.faq_subtitle | escape }}</p>
+          {%- endif -%}
+        </header>
+
+        <div class="about-faq">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'faq_item' and block.settings.question != blank -%}
+              <details class="about-faq__item" {{ block.shopify_attributes }}>
+                <summary class="about-faq__question">
+                  <span>{{ block.settings.question | escape }}</span>
+                  <span class="about-faq__toggle" aria-hidden="true"></span>
+                </summary>
+                {%- if block.settings.answer != blank -%}
+                  <div class="about-faq__answer rte">{{ block.settings.answer }}</div>
+                {%- endif -%}
+              </details>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} 9. Mumbai Studio & Concierge CTA Banner {%- endcomment -%}
     <div class="about-studio-cta">
       <div class="about-studio-cta__info">
         {%- if section.settings.studio_eyebrow != blank -%}
@@ -511,7 +695,7 @@
   /* 1. Hero */
   .about-hero {
     display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
+    grid-template-columns: 1.15fr 0.85fr;
     align-items: center;
     gap: 36px;
     position: relative;
@@ -520,7 +704,7 @@
     background-image: linear-gradient(135deg, var(--color-input-background) 0%, rgb(from var(--color-primary) r g b / 0.08) 100%);
     border: 1px solid rgb(from var(--color-primary) r g b / 0.26);
     border-radius: 26px;
-    padding: 48px 44px;
+    padding: 44px 42px;
     box-shadow: 0 18px 46px rgb(from var(--color-shadow) r g b / 0.07);
   }
 
@@ -543,7 +727,7 @@
   .about-hero__title {
     margin: 0;
     font-family: var(--about-serif) !important;
-    font-size: clamp(2.25rem, 4.4vw, 3.45rem);
+    font-size: clamp(2.2rem, 4.3vw, 3.4rem);
     font-weight: 600;
     line-height: 1.08;
     letter-spacing: 0.015em;
@@ -554,7 +738,7 @@
     margin: 0;
     font-family: var(--about-serif);
     font-style: italic;
-    font-size: clamp(1.15rem, 1.8vw, 1.4rem);
+    font-size: clamp(1.15rem, 1.8vw, 1.38rem);
     line-height: 1.55;
     color: rgb(from var(--color-foreground) r g b / 0.84);
     max-width: 36rem;
@@ -570,16 +754,25 @@
   .about-hero__media {
     border-radius: 20px;
     overflow: hidden;
-    border: 1px solid rgb(from var(--color-primary) r g b / 0.25);
-    box-shadow: 0 14px 32px rgb(from var(--color-shadow) r g b / 0.1);
+    border: 1px solid rgb(from var(--color-primary) r g b / 0.26);
+    box-shadow: 0 14px 34px rgb(from var(--color-shadow) r g b / 0.11);
+    background-color: var(--color-background);
   }
 
   .about-hero__img {
     width: 100%;
-    height: 100%;
-    max-height: 380px;
+    height: auto;
+    max-height: 440px;
     object-fit: cover;
+    object-position: center;
     display: block;
+    transition: transform 0.6s var(--about-ease);
+  }
+
+  @media (hover: hover) {
+    .about-hero:hover .about-hero__img {
+      transform: scale(1.03);
+    }
   }
 
   .about-hero__crest {
@@ -618,12 +811,56 @@
     color: rgb(from var(--color-foreground) r g b / 0.68);
   }
 
-  /* 2. Story & Pillars */
+  /* 2. Brand Stats Strip */
+  .about-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .about-stat {
+    background-color: var(--color-input-background);
+    border: 1px solid rgb(from var(--color-primary) r g b / 0.2);
+    border-radius: 20px;
+    padding: 20px 18px;
+    text-align: center;
+    box-shadow: 0 8px 22px rgb(from var(--color-shadow) r g b / 0.04);
+    transition:
+      transform 0.3s var(--about-ease),
+      border-color 0.3s ease;
+  }
+
+  @media (hover: hover) {
+    .about-stat:hover {
+      transform: translateY(-3px);
+      border-color: rgb(from var(--color-primary) r g b / 0.45);
+    }
+  }
+
+  .about-stat__value {
+    margin: 0 0 4px;
+    font-family: var(--about-serif);
+    font-size: clamp(1.5rem, 2.4vw, 2rem);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--color-primary);
+  }
+
+  .about-stat__label {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgb(from var(--color-foreground) r g b / 0.76);
+  }
+
+  /* 3. Story & Pillars */
   .about-story {
     display: grid;
     grid-template-columns: 1.15fr 0.85fr;
     gap: 24px;
-    align-items: stretch;
+    align-items: start;
   }
 
   .about-story__card {
@@ -653,6 +890,29 @@
 
   .about-story__rte p:last-child {
     margin-bottom: 0;
+  }
+
+  .about-story__media {
+    margin: 6px 0 0;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgb(from var(--color-primary) r g b / 0.22);
+    background-color: var(--color-background);
+  }
+
+  .about-story__img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+
+  .about-story__caption {
+    padding: 10px 14px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: rgb(from var(--color-foreground) r g b / 0.72);
+    border-top: 1px solid rgb(from var(--color-primary) r g b / 0.14);
   }
 
   .about-pillars {
@@ -718,7 +978,95 @@
     color: rgb(from var(--color-foreground) r g b / 0.75);
   }
 
-  /* 3. Section Header & 4-Step Bespoke Grid */
+  /* 4. Lookbook Visual Showcase */
+  .about-lookbook {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .about-lookbook-card {
+    background-color: var(--color-input-background);
+    border: 1px solid rgb(from var(--color-primary) r g b / 0.22);
+    border-radius: 20px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 26px rgb(from var(--color-shadow) r g b / 0.05);
+    transition:
+      transform 0.35s var(--about-ease),
+      border-color 0.35s ease,
+      box-shadow 0.35s ease;
+  }
+
+  .about-lookbook-card__media {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background-color: var(--color-background);
+  }
+
+  .about-lookbook-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.55s var(--about-ease);
+  }
+
+  .about-lookbook-card__badge {
+    position: absolute;
+    inset-block-start: 12px;
+    inset-inline-start: 12px;
+    padding: 5px 11px;
+    border-radius: 999px;
+    background-color: rgb(from var(--color-background) r g b / 0.9);
+    border: 1px solid rgb(from var(--color-primary) r g b / 0.35);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-foreground-heading);
+  }
+
+  .about-lookbook-card__body {
+    padding: 16px 18px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .about-lookbook-card__title {
+    margin: 0;
+    font-family: var(--about-serif) !important;
+    font-size: 1.28rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--color-foreground-heading);
+  }
+
+  .about-lookbook-card__caption {
+    margin: 0;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: rgb(from var(--color-foreground) r g b / 0.72);
+  }
+
+  @media (hover: hover) {
+    .about-lookbook-card:hover {
+      transform: translateY(-5px);
+      border-color: rgb(from var(--color-primary) r g b / 0.52);
+      box-shadow: 0 18px 36px rgb(from var(--color-primary) r g b / 0.13);
+    }
+
+    .about-lookbook-card:hover .about-lookbook-card__img {
+      transform: scale(1.05);
+    }
+  }
+
+  /* Section Header & 5. Bespoke 4-Step Grid */
   .about-section-block {
     display: flex;
     flex-direction: column;
@@ -748,7 +1096,7 @@
     background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 250, 235, 0.42) 100%);
     border: 1px solid rgb(from var(--color-primary) r g b / 0.2);
     border-radius: 22px;
-    padding: 28px 22px;
+    padding: 24px 20px;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -771,11 +1119,34 @@
     opacity: 0.75;
   }
 
+  .about-step__media {
+    width: 100%;
+    max-width: 150px;
+    aspect-ratio: 1 / 1;
+    border-radius: 16px;
+    overflow: hidden;
+    background-color: var(--color-background);
+    border: 1px solid rgb(from var(--color-primary) r g b / 0.16);
+    margin-bottom: 4px;
+  }
+
+  .about-step__img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    transition: transform 0.45s var(--about-ease);
+  }
+
   @media (hover: hover) {
     .about-step:hover {
       transform: translateY(-6px);
       border-color: rgb(from var(--color-primary) r g b / 0.52);
       box-shadow: 0 20px 40px rgb(from var(--color-primary) r g b / 0.13);
+    }
+
+    .about-step:hover .about-step__img {
+      transform: scale(1.06);
     }
 
     .about-step:hover .about-step__num {
@@ -786,19 +1157,18 @@
   }
 
   .about-step__num {
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     font-family: var(--about-serif);
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     font-weight: 700;
     color: var(--color-primary);
     border: 1px solid rgb(from var(--color-primary) r g b / 0.35);
     background: linear-gradient(135deg, var(--color-background) 0%, rgb(from var(--color-primary) r g b / 0.14) 100%);
-    margin-bottom: 4px;
     transition:
       transform 0.35s var(--about-ease),
       background 0.3s ease,
@@ -808,7 +1178,7 @@
   .about-step__title {
     margin: 0;
     font-family: var(--about-serif) !important;
-    font-size: 1.38rem;
+    font-size: 1.35rem;
     font-weight: 600;
     line-height: 1.2;
     color: var(--color-foreground-heading);
@@ -821,7 +1191,7 @@
     color: rgb(from var(--color-foreground) r g b / 0.74);
   }
 
-  /* 4. Collections Grid */
+  /* 6. Collections Grid */
   .about-collections {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -832,17 +1202,34 @@
     background-color: var(--color-input-background);
     border: 1px solid rgb(from var(--color-primary) r g b / 0.22);
     border-radius: 18px;
-    padding: 22px 24px;
+    padding: 18px 20px 20px;
     text-decoration: none;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
     box-shadow: 0 8px 22px rgb(from var(--color-shadow) r g b / 0.04);
     transition:
       transform 0.3s var(--about-ease),
       border-color 0.3s ease,
       box-shadow 0.3s ease,
       background-color 0.3s ease;
+  }
+
+  .about-collection-card__media {
+    aspect-ratio: 4 / 3;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: var(--color-background);
+    margin-bottom: 4px;
+    border: 1px solid rgb(from var(--color-primary) r g b / 0.14);
+  }
+
+  .about-collection-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s var(--about-ease);
   }
 
   .about-collection-card__top {
@@ -881,12 +1268,16 @@
       box-shadow: 0 16px 32px rgb(from var(--color-primary) r g b / 0.12);
     }
 
+    .about-collection-card:hover .about-collection-card__img {
+      transform: scale(1.05);
+    }
+
     .about-collection-card:hover .about-collection-card__arrow {
       transform: translateX(4px);
     }
   }
 
-  /* 5. Events Card */
+  /* 7. Events Card */
   .about-events {
     background-color: var(--color-input-background);
     background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 250, 235, 0.55) 100%);
@@ -937,6 +1328,7 @@
     border-radius: 18px;
     overflow: hidden;
     border: 1px solid rgb(from var(--color-primary) r g b / 0.22);
+    background-color: var(--color-background);
   }
 
   .about-events__img {
@@ -946,7 +1338,97 @@
     object-fit: cover;
   }
 
-  /* 6. Studio CTA Banner */
+  /* 8. FAQ Accordion */
+  .about-faq {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    align-items: start;
+  }
+
+  .about-faq__item {
+    background-color: var(--color-input-background);
+    border: 1px solid rgb(from var(--color-primary) r g b / 0.22);
+    border-radius: 18px;
+    padding: 18px 22px;
+    box-shadow: 0 8px 22px rgb(from var(--color-shadow) r g b / 0.04);
+    transition:
+      border-color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+
+  .about-faq__item[open] {
+    border-color: rgb(from var(--color-primary) r g b / 0.5);
+    box-shadow: 0 12px 28px rgb(from var(--color-primary) r g b / 0.09);
+  }
+
+  .about-faq__question {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    font-family: var(--about-serif);
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--color-foreground-heading);
+  }
+
+  .about-faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .about-faq__toggle {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid rgb(from var(--color-primary) r g b / 0.35);
+    flex-shrink: 0;
+  }
+
+  .about-faq__toggle::before,
+  .about-faq__toggle::after {
+    content: '';
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
+    width: 10px;
+    height: 1.5px;
+    background-color: var(--color-primary);
+    transform: translate(-50%, -50%);
+    transition: transform 0.25s ease, opacity 0.2s ease;
+  }
+
+  .about-faq__toggle::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+
+  .about-faq__item[open] .about-faq__toggle::after {
+    transform: translate(-50%, -50%) rotate(0deg);
+    opacity: 0;
+  }
+
+  .about-faq__answer {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgb(from var(--color-primary) r g b / 0.16);
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: rgb(from var(--color-foreground) r g b / 0.8);
+  }
+
+  .about-faq__answer p:first-child {
+    margin-top: 0;
+  }
+
+  .about-faq__answer p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* 9. Studio CTA Banner */
   .about-studio-cta {
     background-color: var(--color-input-background);
     background-image: linear-gradient(135deg, var(--color-input-background) 0%, rgb(from var(--color-primary) r g b / 0.09) 100%);
@@ -999,6 +1481,7 @@
 
   @media (prefers-reduced-motion: no-preference) {
     .about-hero,
+    .about-stats,
     .about-story,
     .about-section-block,
     .about-events,
@@ -1006,8 +1489,12 @@
       animation: aboutFadeUp 0.7s var(--about-ease) both;
     }
 
+    .about-stats {
+      animation-delay: 0.05s;
+    }
+
     .about-story {
-      animation-delay: 0.08s;
+      animation-delay: 0.1s;
     }
   }
 
@@ -1015,14 +1502,14 @@
   @media screen and (max-width: 1023px) {
     .about-hero,
     .about-story,
-    .about-events--with-media {
+    .about-events--with-media,
+    .about-faq {
       grid-template-columns: 1fr;
     }
 
-    .about-steps {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
+    .about-stats,
+    .about-lookbook,
+    .about-steps,
     .about-collections {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -1072,6 +1559,16 @@
       border-radius: 18px;
     }
 
+    .about-stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .about-stat {
+      padding: 16px 12px;
+      border-radius: 16px;
+    }
+
     .about-story__card,
     .about-events,
     .about-studio-cta {
@@ -1082,6 +1579,23 @@
     .about-pillar {
       padding: 18px;
       border-radius: 18px;
+    }
+
+    .about-lookbook {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .about-lookbook-card {
+      border-radius: 16px;
+    }
+
+    .about-lookbook-card__body {
+      padding: 12px;
+    }
+
+    .about-lookbook-card__title {
+      font-size: 1.08rem;
     }
 
     .about-steps {
@@ -1100,12 +1614,21 @@
     }
 
     .about-collection-card {
-      padding: 16px 14px;
+      padding: 14px 12px;
       border-radius: 16px;
     }
 
     .about-collection-card__title {
-      font-size: 1.18rem;
+      font-size: 1.15rem;
+    }
+
+    .about-faq__item {
+      padding: 16px 18px;
+      border-radius: 16px;
+    }
+
+    .about-faq__question {
+      font-size: 1.1rem;
     }
 
     .about-studio-cta__actions {
@@ -1118,8 +1641,9 @@
     }
   }
 
-  @media screen and (max-width: 400px) {
-    .about-collections {
+  @media screen and (max-width: 420px) {
+    .about-collections,
+    .about-lookbook {
       grid-template-columns: 1fr;
     }
   }
@@ -1192,6 +1716,58 @@
     },
     {
       "type": "header",
+      "content": "Brand Highlights (4 Stats)"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_value",
+      "label": "Highlight 1 value",
+      "default": "Mumbai"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_label",
+      "label": "Highlight 1 label",
+      "default": "Kemps Corner Atelier"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_value",
+      "label": "Highlight 2 value",
+      "default": "6+"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_label",
+      "label": "Highlight 2 label",
+      "default": "Signature Categories"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_value",
+      "label": "Highlight 3 value",
+      "default": "Bespoke"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_label",
+      "label": "Highlight 3 label",
+      "default": "Custom Styling & Sizing"
+    },
+    {
+      "type": "text",
+      "id": "stat_4_value",
+      "label": "Highlight 4 value",
+      "default": "Pan-India"
+    },
+    {
+      "type": "text",
+      "id": "stat_4_label",
+      "label": "Highlight 4 label",
+      "default": "Pop-Ups & Trunk Shows"
+    },
+    {
+      "type": "header",
       "content": "Brand Story & Pillars"
     },
     {
@@ -1210,7 +1786,18 @@
       "type": "richtext",
       "id": "story_text",
       "label": "Story content",
-      "default": "<p>Treasures by Tiara was born from a simple belief: fine-looking designer pieces shouldn’t feel out of reach or sit locked away waiting for a rare occasion.</p><p>From sculpted necklaces, earrings, rings, bracelets, and cufflinks to signature corsets and fashion gloves, every creation blends heirloom romance with modern self-expression — thoughtfully priced so you can treasure yourself freely.</p>"
+      "default": "<p>Treasures by Tiara was born from a simple belief: fine-looking designer pieces shouldn’t feel out of reach or sit locked away waiting for a rare occasion.</p><p>From sculpted necklaces, earrings, rings, bracelets, and cufflinks to signature corsets and evening gloves, every creation blends heirloom romance with modern self-expression — thoughtfully priced so you can treasure yourself freely.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "story_image",
+      "label": "Story editorial image (optional)"
+    },
+    {
+      "type": "text",
+      "id": "story_image_caption",
+      "label": "Story image caption",
+      "default": "Curated inside our Kemps Corner atelier in Mumbai."
     },
     {
       "type": "text",
@@ -1250,6 +1837,28 @@
     },
     {
       "type": "header",
+      "content": "Editorial Lookbook"
+    },
+    {
+      "type": "text",
+      "id": "lookbook_eyebrow",
+      "label": "Lookbook eyebrow",
+      "default": "Inside The Chest"
+    },
+    {
+      "type": "text",
+      "id": "lookbook_heading",
+      "label": "Lookbook heading",
+      "default": "Moments Crafted to Be Remembered"
+    },
+    {
+      "type": "textarea",
+      "id": "lookbook_subtitle",
+      "label": "Lookbook subtitle",
+      "default": "Glimpses from our jewellery edits, sculpted corsets, evening gloves, and styled campaigns."
+    },
+    {
+      "type": "header",
       "content": "Bespoke Process"
     },
     {
@@ -1271,6 +1880,11 @@
       "default": "Four thoughtful steps from your first spark of an idea to a finished piece made uniquely for you."
     },
     {
+      "type": "image_picker",
+      "id": "step_1_image",
+      "label": "Step 1 image (optional)"
+    },
+    {
       "type": "text",
       "id": "step_1_title",
       "label": "Step 1 title",
@@ -1281,6 +1895,11 @@
       "id": "step_1_text",
       "label": "Step 1 description",
       "default": "Share your story, occasion, or styling mood with our team."
+    },
+    {
+      "type": "image_picker",
+      "id": "step_2_image",
+      "label": "Step 2 image (optional)"
     },
     {
       "type": "text",
@@ -1295,6 +1914,11 @@
       "default": "We refine proportions, stones, and pairings around your personal style."
     },
     {
+      "type": "image_picker",
+      "id": "step_3_image",
+      "label": "Step 3 image (optional)"
+    },
+    {
       "type": "text",
       "id": "step_3_title",
       "label": "Step 3 title",
@@ -1305,6 +1929,11 @@
       "id": "step_3_text",
       "label": "Step 3 description",
       "default": "Every clasp, setting, and silhouette is finished with meticulous attention."
+    },
+    {
+      "type": "image_picker",
+      "id": "step_4_image",
+      "label": "Step 4 image (optional)"
     },
     {
       "type": "text",
@@ -1372,6 +2001,28 @@
       "type": "image_picker",
       "id": "events_image",
       "label": "Events image (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Frequently Asked Questions"
+    },
+    {
+      "type": "text",
+      "id": "faq_eyebrow",
+      "label": "FAQ eyebrow",
+      "default": "Helpful Answers"
+    },
+    {
+      "type": "text",
+      "id": "faq_heading",
+      "label": "FAQ heading",
+      "default": "Before You Visit or Order"
+    },
+    {
+      "type": "text",
+      "id": "faq_subtitle",
+      "label": "FAQ subtitle",
+      "default": "Quick notes on sizing, bespoke requests, studio visits, and care."
     },
     {
       "type": "header",
@@ -1499,6 +2150,11 @@
           "label": "Collection"
         },
         {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Custom thumbnail image (optional)"
+        },
+        {
           "type": "text",
           "id": "title",
           "label": "Title override"
@@ -1512,6 +2168,53 @@
           "type": "url",
           "id": "link",
           "label": "Custom link (optional)"
+        }
+      ]
+    },
+    {
+      "type": "lookbook_card",
+      "name": "Lookbook Image Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Lookbook photo"
+        },
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Tag badge (optional)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Caption"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Destination link (optional)"
+        }
+      ]
+    },
+    {
+      "type": "faq_item",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer"
         }
       ]
     }
