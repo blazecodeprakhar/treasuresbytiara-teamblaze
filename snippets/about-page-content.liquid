@@ -94,8 +94,10 @@
   assign studio_text = s.studio_text | default: 'Have a bespoke idea, sizing question, or want to try on pieces in person? Connect with our Mumbai studio concierge.'
   assign studio_address = s.studio_address | default: 'Shop 008 New Poornima Apartment, S.R. Gopalrao Deshmukh Marg, Mumbai – 400026'
   assign studio_hours = s.studio_hours | default: 'Mon – Sat · 11:00 AM – 7:30 PM IST'
-  assign phone_raw = s.studio_phone | default: '+91 98675 59430' | strip
+  assign phone_raw = s.studio_phone | default: '+91 98678 22220' | strip
   assign phone_href = phone_raw | remove: ' ' | remove: '-' | remove: '(' | remove: ')'
+  assign phone_secondary_raw = s.studio_phone_secondary | default: '+91 98675 59430' | strip
+  assign phone_secondary_href = phone_secondary_raw | remove: ' ' | remove: '-' | remove: '(' | remove: ')'
   assign email_clean = s.studio_email | default: 'treasuresbytiara@gmail.com' | strip
   assign studio_cta_primary_label = s.studio_cta_primary_label | default: 'Contact Us'
   assign studio_cta_primary_link = s.studio_cta_primary_link | default: '/pages/contact'
@@ -671,7 +673,7 @@
         <div class="about-studio-cta__meta">
           <span><strong>Studio:</strong> {{ studio_address | escape }}</span>
           <span><strong>Hours:</strong> {{ studio_hours | escape }}</span>
-          <span><strong>Phone:</strong> <a href="tel:{{ phone_href }}">{{ phone_raw | escape }}</a></span>
+          <span><strong>Phone:</strong> <a href="tel:{{ phone_href }}">{{ phone_raw | escape }}</a>{%- if phone_secondary_raw != blank and phone_secondary_raw != phone_raw %}{% unless phone_raw contains '/' %} / <a href="tel:{{ phone_secondary_href }}">{{ phone_secondary_raw | escape }}</a>{% endunless %}{%- endif -%}</span>
           <span><strong>Email:</strong> <a href="mailto:{{ email_clean }}">{{ email_clean | escape }}</a></span>
         </div>
       </div>
