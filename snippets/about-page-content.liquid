@@ -1,0 +1,689 @@
+{%- doc -%}
+  Shared About Us page renderer used by sections/about-page.liquid and automatically
+  when Default page renders /pages/about-us, /pages/about, or /pages/our-story.
+
+  @param {object} [section_obj] - Optional section object when mounted via sections/about-page.liquid
+  @param {object} [page_obj] - Current Shopify page object
+  @param {string} [section_id] - Unique section identifier
+  @param {string} [section_width] - Layout width class suffix
+  @param {string} [color_scheme] - Color scheme class suffix
+{%- enddoc -%}
+{% liquid
+  assign s = section_obj.settings
+  assign blocks = section_obj.blocks
+  assign is_default_fallback = false
+  if section_obj == blank
+    assign is_default_fallback = true
+  endif
+
+  assign resolved_width = s.section_width | default: section_width | default: 'page-width'
+  assign resolved_scheme = s.color_scheme | default: color_scheme | default: 'scheme-1'
+  assign resolved_id = section_id | default: 'about-default'
+
+  assign hero_eyebrow = s.hero_eyebrow | default: 'Our Story'
+  assign hero_heading = s.hero_heading | default: 'Treasures Crafted for the Story You Tell'
+  assign hero_subtitle = s.hero_subtitle | default: 'Designer treasures you’d find in an enchanted chest — fairly priced for the girl who buys it for herself.'
+  assign crest_caption = s.crest_caption | default: 'Jewellery · Corsets · Gloves · Bespoke'
+  assign hero_primary_label = s.hero_primary_label | default: 'Explore Collections'
+  assign hero_primary_link = s.hero_primary_link | default: '/collections/all-products'
+  assign hero_secondary_label = s.hero_secondary_label | default: 'Visit Our Studio'
+  assign hero_secondary_link = s.hero_secondary_link | default: '/pages/contact'
+
+  assign hero_img = s.hero_image
+  if is_default_fallback and hero_img == blank
+    assign hero_img = images['11.png']
+    if hero_img == blank
+      assign hero_img = collections['corsets-gloves'].featured_image | default: collections['all-products'].products.first.featured_image
+    endif
+  endif
+
+  assign stat_1_val = s.stat_1_value | default: 'Mumbai'
+  assign stat_1_lbl = s.stat_1_label | default: 'Kemps Corner Atelier'
+  assign stat_2_val = s.stat_2_value | default: '6+'
+  assign stat_2_lbl = s.stat_2_label | default: 'Curated Collections'
+  assign stat_3_val = s.stat_3_value | default: 'Bespoke'
+  assign stat_3_lbl = s.stat_3_label | default: 'Personal Styling & Fit'
+  assign stat_4_val = s.stat_4_value | default: 'Pan-India'
+  assign stat_4_lbl = s.stat_4_label | default: 'Try-On Taverns & Shows'
+
+  assign story_eyebrow = s.story_eyebrow | default: 'Treasure Yourself'
+  assign story_heading = s.story_heading | default: 'Designed for Moments Big & Everyday'
+  assign story_img = s.story_image
+  if is_default_fallback and story_img == blank
+    assign story_img = images['12.png']
+    if story_img == blank
+      assign story_img = collections['necklaces'].featured_image | default: collections['necklaces'].products.first.featured_image
+    endif
+  endif
+  assign story_img_caption = s.story_image_caption | default: 'Signature gloves, corsetry, and heirloom-inspired jewellery curated inside our Kemps Corner atelier.'
+
+  assign pillar_1_title = s.pillar_1_title | default: 'Thoughtful Craft & Fair Pricing'
+  assign pillar_1_text = s.pillar_1_text | default: 'Signature designer appeal crafted with care and priced fairly for women who choose their own treasures.'
+  assign pillar_2_title = s.pillar_2_title | default: 'Bespoke Jewellery Styling'
+  assign pillar_2_text = s.pillar_2_text | default: 'Collaborate with us to turn personal inspiration, custom sizing, or bridal styling into your own keepsake.'
+  assign pillar_3_title = s.pillar_3_title | default: 'Rooted in Mumbai, Shared Nationwide'
+  assign pillar_3_text = s.pillar_3_text | default: 'Visit our Kemps Corner studio in Mumbai or experience our collections live at curated showcases across India.'
+
+  assign lookbook_eyebrow = s.lookbook_eyebrow | default: 'Inside The Chest'
+  assign lookbook_heading = s.lookbook_heading | default: 'Crafted Across Silhouettes & Sparkle'
+  assign lookbook_subtitle = s.lookbook_subtitle | default: 'A glimpse into our world of corset layering, lace evening gloves, and conversation-starting jewels.'
+
+  assign process_eyebrow = s.process_eyebrow | default: 'Bespoke Journey'
+  assign process_heading = s.process_heading | default: 'Turn Your Treasure Into a Jewel'
+  assign process_subtitle = s.process_subtitle | default: 'Four thoughtful steps from your first spark of an idea to a finished piece made uniquely for you.'
+
+  assign collections_eyebrow = s.collections_eyebrow | default: 'Explore Our World'
+  assign collections_heading = s.collections_heading | default: 'Signature Categories'
+  assign collections_subtitle = s.collections_subtitle | default: 'Browse our enchanted chest of jewellery, corsets, and gloves.'
+
+  assign events_eyebrow = s.events_eyebrow | default: 'In The Spotlight'
+  assign events_heading = s.events_heading | default: 'Curated Events & Try-On Taverns'
+  assign events_tags_raw = s.events_tags | default: 'Trunk Shows, Try-On Taverns, Private Previews, Multi-Designer Exhibitions'
+  assign event_tags = events_tags_raw | split: ','
+  assign events_img = s.events_image
+  if is_default_fallback and events_img == blank
+    assign events_img = images['Untitled_design_49.png']
+  endif
+
+  assign faq_eyebrow = s.faq_eyebrow | default: 'Helpful Answers'
+  assign faq_heading = s.faq_heading | default: 'Good to Know Before You Visit'
+  assign faq_subtitle = s.faq_subtitle | default: 'Answers to common questions about bespoke pieces, Kemps Corner visits, and caring for your treasures.'
+
+  assign studio_eyebrow = s.studio_eyebrow | default: 'Visit Our Atelier'
+  assign studio_heading = s.studio_heading | default: 'Experience Treasures by Tiara in Person'
+  assign studio_text = s.studio_text | default: 'Have a bespoke idea, sizing question, or want to try on pieces in person? Connect with our Mumbai studio concierge.'
+  assign studio_address = s.studio_address | default: 'Shop 008 New Poornima Apartment, S.R. Gopalrao Deshmukh Marg, Mumbai – 400026'
+  assign studio_hours = s.studio_hours | default: 'Mon – Sat · 11:00 AM – 7:30 PM IST'
+  assign phone_raw = s.studio_phone | default: '+91 98675 59430' | strip
+  assign phone_href = phone_raw | remove: ' ' | remove: '-' | remove: '(' | remove: ')'
+  assign email_clean = s.studio_email | default: 'treasuresbytiara@gmail.com' | strip
+  assign studio_cta_primary_label = s.studio_cta_primary_label | default: 'Contact Us'
+  assign studio_cta_primary_link = s.studio_cta_primary_link | default: '/pages/contact'
+  assign studio_cta_secondary_label = s.studio_cta_secondary_label | default: 'Shop All Pieces'
+  assign studio_cta_secondary_link = s.studio_cta_secondary_link | default: '/collections/all-products'
+
+  assign has_collection_cards = false
+  assign has_lookbook_cards = false
+  assign has_faq_items = false
+  for block in blocks
+    if block.type == 'collection_card'
+      assign has_collection_cards = true
+    elsif block.type == 'lookbook_card'
+      assign has_lookbook_cards = true
+    elsif block.type == 'faq_item'
+      assign has_faq_items = true
+    endif
+  endfor
+%}
+
+{{ 'about-page.css' | asset_url | stylesheet_tag }}
+
+<div class="section-background color-{{ resolved_scheme }}"></div>
+<section
+  id="AboutPage-{{ resolved_id }}"
+  class="section section--{{ resolved_width }} color-{{ resolved_scheme }} about-page-section"
+>
+  <div
+    class="about-page spacing-style"
+    style="{% if s != blank %}{% render 'spacing-style', settings: s %}{% else %}padding-block: 40px 64px;{% endif %}"
+  >
+    {%- comment -%} 1. Editorial Hero {%- endcomment -%}
+    <div class="about-hero{% if hero_img != blank %} about-hero--split{% endif %}">
+      <div class="about-hero__content">
+        {%- if hero_eyebrow != blank -%}
+          <p class="about-eyebrow">
+            <span>{{ hero_eyebrow | escape }}</span>
+          </p>
+        {%- endif -%}
+
+        {%- if hero_heading != blank -%}
+          <h1 class="about-hero__title">{{ hero_heading | escape }}</h1>
+        {%- endif -%}
+
+        {%- if hero_subtitle != blank -%}
+          <p class="about-hero__subtitle">{{ hero_subtitle | escape }}</p>
+        {%- endif -%}
+
+        <div class="about-hero__actions">
+          {%- if hero_primary_label != blank -%}
+            <a href="{{ hero_primary_link }}" class="about-btn about-btn--primary">
+              <span>{{ hero_primary_label | escape }}</span>
+              <span class="about-btn__arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          {%- endif -%}
+          {%- if hero_secondary_label != blank -%}
+            <a href="{{ hero_secondary_link }}" class="about-btn about-btn--outline">
+              <span>{{ hero_secondary_label | escape }}</span>
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+
+      {%- if hero_img != blank -%}
+        <div class="about-hero__media">
+          {{
+            hero_img
+            | image_url: width: 1200
+            | image_tag:
+              widths: '400, 600, 800, 1000, 1200',
+              sizes: '(min-width: 1024px) 42vw, 100vw',
+              class: 'about-hero__img',
+              loading: 'eager'
+          }}
+        </div>
+      {%- else -%}
+        <div class="about-hero__crest">
+          <div class="about-hero__crest-inner">
+            <img
+              src="{{ 'logo.png' | asset_url }}"
+              alt="{{ shop.name | escape }}"
+              width="900"
+              height="367"
+              class="about-hero__crest-logo"
+              loading="eager"
+            >
+            {%- if crest_caption != blank -%}
+              <p class="about-hero__crest-caption">{{ crest_caption | escape }}</p>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} 2. Brand Highlights / Stats Strip {%- endcomment -%}
+    <div class="about-stats" aria-label="Brand highlights">
+      {%- if stat_1_val != blank -%}
+        <div class="about-stat">
+          <p class="about-stat__value">{{ stat_1_val | escape }}</p>
+          <p class="about-stat__label">{{ stat_1_lbl | escape }}</p>
+        </div>
+      {%- endif -%}
+      {%- if stat_2_val != blank -%}
+        <div class="about-stat">
+          <p class="about-stat__value">{{ stat_2_val | escape }}</p>
+          <p class="about-stat__label">{{ stat_2_lbl | escape }}</p>
+        </div>
+      {%- endif -%}
+      {%- if stat_3_val != blank -%}
+        <div class="about-stat">
+          <p class="about-stat__value">{{ stat_3_val | escape }}</p>
+          <p class="about-stat__label">{{ stat_3_lbl | escape }}</p>
+        </div>
+      {%- endif -%}
+      {%- if stat_4_val != blank -%}
+        <div class="about-stat">
+          <p class="about-stat__value">{{ stat_4_val | escape }}</p>
+          <p class="about-stat__label">{{ stat_4_lbl | escape }}</p>
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} 3. Brand Story, Atelier Feature Image & Three Pillars {%- endcomment -%}
+    <div class="about-story">
+      <article class="about-story__card">
+        {%- if story_eyebrow != blank -%}
+          <p class="about-eyebrow about-eyebrow--start">
+            <span>{{ story_eyebrow | escape }}</span>
+          </p>
+        {%- endif -%}
+        {%- if story_heading != blank -%}
+          <h2 class="about-heading">{{ story_heading | escape }}</h2>
+        {%- endif -%}
+
+        <div class="about-story__rte rte">
+          {%- if s.story_text != blank -%}
+            {{ s.story_text }}
+          {%- else -%}
+            {%- if page_obj.content != blank -%}
+              {{ page_obj.content }}
+            {%- endif -%}
+            <p>
+              Treasures by Tiara was born from a simple belief: fine-looking designer pieces shouldn’t feel out of reach or sit locked away waiting for a rare occasion.
+            </p>
+            <p>
+              What started as a love for character-filled keepsakes grew into a complete universe spanning sculpted necklaces, statement earrings, stacking rings, delicate bracelets, tailored cufflinks, structured corsets, and romantic evening gloves.
+            </p>
+            <p>
+              Every piece is chosen and finished so you never have to wait for someone else to gift you magic — you can step into our Mumbai studio or open your own enchanted chest any day of the week.
+            </p>
+          {%- endif -%}
+        </div>
+
+        {%- if story_img != blank -%}
+          <figure class="about-story__media">
+            {{
+              story_img
+              | image_url: width: 1000
+              | image_tag:
+                widths: '400, 600, 800, 1000',
+                sizes: '(min-width: 1024px) 48vw, 100vw',
+                class: 'about-story__img',
+                loading: 'lazy'
+            }}
+            {%- if story_img_caption != blank -%}
+              <figcaption class="about-story__caption">{{ story_img_caption | escape }}</figcaption>
+            {%- endif -%}
+          </figure>
+        {%- endif -%}
+      </article>
+
+      <div class="about-pillars">
+        <article class="about-pillar">
+          <div class="about-pillar__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 3h12l4 6-10 13L2 9Z" />
+              <path d="M11 3 8 9l4 13 4-13-3-6" />
+              <path d="M2 9h20" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="about-pillar__title">{{ pillar_1_title | escape }}</h3>
+            <p class="about-pillar__text">{{ pillar_1_text | escape }}</p>
+          </div>
+        </article>
+
+        <article class="about-pillar">
+          <div class="about-pillar__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3l1.9 5.8H20l-4.9 3.6 1.9 5.8L12 14.6 7 18.2l1.9-5.8L4 8.8h6.1z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="about-pillar__title">{{ pillar_2_title | escape }}</h3>
+            <p class="about-pillar__text">{{ pillar_2_text | escape }}</p>
+          </div>
+        </article>
+
+        <article class="about-pillar">
+          <div class="about-pillar__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="about-pillar__title">{{ pillar_3_title | escape }}</h3>
+            <p class="about-pillar__text">{{ pillar_3_text | escape }}</p>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    {%- comment -%} 4. Editorial Lookbook Photo Gallery {%- endcomment -%}
+    <div class="about-section-block">
+      <header class="about-section-header">
+        <p class="about-eyebrow">
+          <span>{{ lookbook_eyebrow | escape }}</span>
+        </p>
+        <h2 class="about-heading">{{ lookbook_heading | escape }}</h2>
+        <p class="about-subheading">{{ lookbook_subtitle | escape }}</p>
+      </header>
+
+      <div class="about-lookbook">
+        {%- if has_lookbook_cards -%}
+          {%- for block in blocks -%}
+            {%- if block.type == 'lookbook_card' -%}
+              {%- assign look_tag = 'div' -%}
+              {%- if block.settings.link != blank -%}
+                {%- assign look_tag = 'a' -%}
+              {%- endif -%}
+              <{{ look_tag }}
+                {% if block.settings.link != blank %}
+                  href="{{ block.settings.link }}"
+                {% endif %}
+                class="about-lookbook-card"
+                {{ block.shopify_attributes }}
+              >
+                {%- if block.settings.image != blank -%}
+                  <div class="about-lookbook-card__media">
+                    {{
+                      block.settings.image
+                      | image_url: width: 800
+                      | image_tag:
+                        widths: '300, 500, 800',
+                        sizes: '(min-width: 1024px) 23vw, (min-width: 600px) 46vw, 92vw',
+                        class: 'about-lookbook-card__img',
+                        loading: 'lazy'
+                    }}
+                    {%- if block.settings.badge != blank -%}
+                      <span class="about-lookbook-card__badge">{{ block.settings.badge | escape }}</span>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+                <div class="about-lookbook-card__body">
+                  {%- if block.settings.title != blank -%}
+                    <h3 class="about-lookbook-card__title">{{ block.settings.title | escape }}</h3>
+                  {%- endif -%}
+                  {%- if block.settings.caption != blank -%}
+                    <p class="about-lookbook-card__caption">{{ block.settings.caption | escape }}</p>
+                  {%- endif -%}
+                </div>
+              </{{ look_tag }}>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- else -%}
+          {%- liquid
+            assign look_img_1 = images['Fashion_Gloves_5.png']
+            if look_img_1 == blank
+              assign look_img_1 = collections['corsets'].featured_image | default: collections['corsets-gloves'].products.first.featured_image
+            endif
+            assign look_img_2 = images['Fashion_Gloves_8.png']
+            if look_img_2 == blank
+              assign look_img_2 = collections['gloves'].featured_image | default: collections['corsets-gloves'].products.last.featured_image
+            endif
+            assign look_img_3 = images['Fashion_Gloves_2.png']
+            if look_img_3 == blank
+              assign look_img_3 = collections['necklaces'].featured_image | default: collections['all-products'].products.first.featured_image
+            endif
+            assign look_img_4 = images['Fashion_Gloves_3.png']
+            if look_img_4 == blank
+              assign look_img_4 = collections['rings'].featured_image | default: collections['all-products'].products.last.featured_image
+            endif
+          -%}
+          {%- assign default_lookbook = 'Corsets|/collections/corsets|Sculpted Silhouettes|Romantic corsetry tailored for festive evenings & statement layering.||Gloves|/collections/gloves|Evening Grace|Sheer lace and satin gloves designed to turn heads at every celebration.||Jewellery|/collections/all-products|Enchanted Finishes|Playful heirlooms crafted for cocktail nights, brunches, and keepsakes.||Bespoke|/pages/contact|Styled for You|Pairings customized around your outfit, occasion, and personal mood.' | split: '||' -%}
+          {%- for entry in default_lookbook -%}
+            {%- assign parts = entry | split: '|' -%}
+            {%- liquid
+              case forloop.index
+                when 1
+                  assign card_img = look_img_1
+                when 2
+                  assign card_img = look_img_2
+                when 3
+                  assign card_img = look_img_3
+                else
+                  assign card_img = look_img_4
+              endcase
+            -%}
+            <a href="{{ parts[1] }}" class="about-lookbook-card">
+              {%- if card_img != blank -%}
+                <div class="about-lookbook-card__media">
+                  {{
+                    card_img
+                    | image_url: width: 800
+                    | image_tag:
+                      widths: '300, 500, 800',
+                      sizes: '(min-width: 1024px) 23vw, (min-width: 600px) 46vw, 92vw',
+                      class: 'about-lookbook-card__img',
+                      loading: 'lazy'
+                  }}
+                  <span class="about-lookbook-card__badge">{{ parts[0] | escape }}</span>
+                </div>
+              {%- endif -%}
+              <div class="about-lookbook-card__body">
+                <h3 class="about-lookbook-card__title">{{ parts[2] | escape }}</h3>
+                <p class="about-lookbook-card__caption">{{ parts[3] | escape }}</p>
+              </div>
+            </a>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- comment -%} 5. Bespoke 4-Step Journey {%- endcomment -%}
+    <div class="about-section-block">
+      <header class="about-section-header">
+        <p class="about-eyebrow">
+          <span>{{ process_eyebrow | escape }}</span>
+        </p>
+        <h2 class="about-heading">{{ process_heading | escape }}</h2>
+        <p class="about-subheading">{{ process_subtitle | escape }}</p>
+      </header>
+
+      <div class="about-steps">
+        {%- assign step_indices = '1,2,3,4' | split: ',' -%}
+        {%- for idx in step_indices -%}
+          {%- liquid
+            assign title_key = 'step_' | append: idx | append: '_title'
+            assign text_key = 'step_' | append: idx | append: '_text'
+            assign img_key = 'step_' | append: idx | append: '_image'
+            assign step_title = s[title_key]
+            assign step_text = s[text_key]
+            assign step_image = s[img_key]
+
+            case idx
+              when '1'
+                assign step_title = step_title | default: 'Tell Us Your Treasure'
+                assign step_text = step_text | default: 'Share your story, occasion, or styling mood with our team.'
+                if is_default_fallback and step_image == blank
+                  assign step_image = images['15_3c68a272-9f33-457d-b5d9-24e9561e2cce.png']
+                endif
+              when '2'
+                assign step_title = step_title | default: 'We Imagine Together'
+                assign step_text = step_text | default: 'We refine proportions, stones, and pairings around your personal style.'
+                if is_default_fallback and step_image == blank
+                  assign step_image = images['Tell_Us_Your_Treasure_9.png']
+                endif
+              when '3'
+                assign step_title = step_title | default: 'Your Jewel Comes to Life'
+                assign step_text = step_text | default: 'Every clasp, setting, and silhouette is finished with meticulous attention.'
+                if is_default_fallback and step_image == blank
+                  assign step_image = images['17_26629983-90fe-4b56-90be-bfed352bbe79.png']
+                endif
+              when '4'
+                assign step_title = step_title | default: 'Your Treasure, Forever Yours'
+                assign step_text = step_text | default: 'Packaged with care and ready to wear, gift, and keep for years ahead.'
+                if is_default_fallback and step_image == blank
+                  assign step_image = images['18_6b6f21a5-0073-4afa-83db-b1f200c9b5dc.png']
+                endif
+            endcase
+          -%}
+          <article class="about-step">
+            {%- if step_image != blank -%}
+              <div class="about-step__media">
+                {{
+                  step_image
+                  | image_url: width: 600
+                  | image_tag:
+                    widths: '240, 400, 600',
+                    sizes: '(min-width: 1024px) 22vw, (min-width: 750px) 44vw, 88vw',
+                    class: 'about-step__img',
+                    loading: 'lazy'
+                }}
+              </div>
+            {%- endif -%}
+            <span class="about-step__num" aria-hidden="true">0{{ idx }}</span>
+            <h3 class="about-step__title">{{ step_title | escape }}</h3>
+            <p class="about-step__text">{{ step_text | escape }}</p>
+          </article>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    {%- comment -%} 6. Curated Collections Strip (with automatic collection thumbnails) {%- endcomment -%}
+    <div class="about-section-block">
+      <header class="about-section-header">
+        <p class="about-eyebrow">
+          <span>{{ collections_eyebrow | escape }}</span>
+        </p>
+        <h2 class="about-heading">{{ collections_heading | escape }}</h2>
+        <p class="about-subheading">{{ collections_subtitle | escape }}</p>
+      </header>
+
+      <div class="about-collections">
+        {%- if has_collection_cards -%}
+          {%- for block in blocks -%}
+            {%- if block.type == 'collection_card' -%}
+              {%- liquid
+                assign card_url = block.settings.link | default: block.settings.collection.url | default: '/collections/all-products'
+                assign card_img = block.settings.image | default: block.settings.collection.featured_image | default: block.settings.collection.products.first.featured_image
+              -%}
+              <a href="{{ card_url }}" class="about-collection-card" {{ block.shopify_attributes }}>
+                {%- if card_img != blank -%}
+                  <div class="about-collection-card__media">
+                    {{
+                      card_img
+                      | image_url: width: 720
+                      | image_tag:
+                        widths: '280, 480, 720',
+                        sizes: '(min-width: 1024px) 30vw, 46vw',
+                        class: 'about-collection-card__img',
+                        loading: 'lazy'
+                    }}
+                  </div>
+                {%- endif -%}
+                <div class="about-collection-card__top">
+                  <h3 class="about-collection-card__title">
+                    {{ block.settings.title | default: block.settings.collection.title | escape }}
+                  </h3>
+                  <span class="about-collection-card__arrow" aria-hidden="true">&rarr;</span>
+                </div>
+                {%- if block.settings.subtitle != blank -%}
+                  <p class="about-collection-card__sub">{{ block.settings.subtitle | escape }}</p>
+                {%- endif -%}
+              </a>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- else -%}
+          {%- assign default_cats = 'necklaces|Necklaces|Layered chains & statement pendants||earings-1|Earrings|Sculpted drops, hoops & studs||rings|Rings|Heirloom-inspired bands & statement rings||bracelet|Bracelets|Delicate cuffs & wrist treasures||cufflinks|Cufflinks|Refined accents for tailored looks||corsets-gloves|Corsets & Gloves|Signature silhouettes & evening gloves' | split: '||' -%}
+          {%- for item in default_cats -%}
+            {%- assign cat_parts = item | split: '|' -%}
+            {%- assign handle = cat_parts[0] -%}
+            {%- assign cat_col = collections[handle] -%}
+            {%- assign fallback_cat_url = '/collections/' | append: handle -%}
+            {%- assign cat_url = cat_col.url | default: fallback_cat_url -%}
+            {%- assign cat_img = cat_col.featured_image | default: cat_col.products.first.featured_image -%}
+            {%- if cat_img == blank and handle == 'corsets-gloves' -%}
+              {%- assign cat_img = images['11.png'] -%}
+            {%- endif -%}
+            <a href="{{ cat_url }}" class="about-collection-card">
+              {%- if cat_img != blank -%}
+                <div class="about-collection-card__media">
+                  {{
+                    cat_img
+                    | image_url: width: 720
+                    | image_tag:
+                      widths: '280, 480, 720',
+                      sizes: '(min-width: 1024px) 30vw, 46vw',
+                      class: 'about-collection-card__img',
+                      loading: 'lazy'
+                  }}
+                </div>
+              {%- endif -%}
+              <div class="about-collection-card__top">
+                <h3 class="about-collection-card__title">{{ cat_parts[1] | escape }}</h3>
+                <span class="about-collection-card__arrow" aria-hidden="true">&rarr;</span>
+              </div>
+              <p class="about-collection-card__sub">{{ cat_parts[2] | escape }}</p>
+            </a>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- comment -%} 7. Events & Trunk Shows Showcase {%- endcomment -%}
+    <article class="about-events{% if events_img != blank %} about-events--with-media{% endif %}">
+      <div class="about-events__body">
+        <p class="about-eyebrow about-eyebrow--start">
+          <span>{{ events_eyebrow | escape }}</span>
+        </p>
+        <h2 class="about-heading">{{ events_heading | escape }}</h2>
+        <div class="about-story__rte rte">
+          {%- if s.events_text != blank -%}
+            {{ s.events_text }}
+          {%- else -%}
+            <p>
+              Treasures by Tiara comes to life through curated events across the country — from exclusive trunk shows to immersive experiences. Each showcase is a chance to explore the collection in person, try on signature pieces, and discover the stories behind them.
+            </p>
+            <p>
+              Whether you’re stepping into a Try-On Tavern, a private preview, or a multi-designer exhibition, our events are designed for you to arrive as you are and leave with something unforgettable.
+            </p>
+          {%- endif -%}
+        </div>
+
+        {%- if events_tags_raw != blank -%}
+          <ul class="about-events__tags" role="list">
+            {%- for tag in event_tags -%}
+              {%- assign clean_tag = tag | strip -%}
+              {%- if clean_tag != blank -%}
+                <li class="about-events__tag">{{ clean_tag | escape }}</li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+
+      {%- if events_img != blank -%}
+        <div class="about-events__media">
+          {{
+            events_img
+            | image_url: width: 1000
+            | image_tag:
+              widths: '400, 600, 800, 1000',
+              sizes: '(min-width: 1024px) 36vw, 100vw',
+              class: 'about-events__img',
+              loading: 'lazy'
+          }}
+        </div>
+      {%- endif -%}
+    </article>
+
+    {%- comment -%} 8. Frequently Asked Questions & Studio Guide {%- endcomment -%}
+    <div class="about-section-block">
+      <header class="about-section-header">
+        <p class="about-eyebrow">
+          <span>{{ faq_eyebrow | escape }}</span>
+        </p>
+        <h2 class="about-heading">{{ faq_heading | escape }}</h2>
+        <p class="about-subheading">{{ faq_subtitle | escape }}</p>
+      </header>
+
+      <div class="about-faq">
+        {%- if has_faq_items -%}
+          {%- for block in blocks -%}
+            {%- if block.type == 'faq_item' and block.settings.question != blank -%}
+              <details class="about-faq__item" {{ block.shopify_attributes }}>
+                <summary class="about-faq__question">
+                  <span>{{ block.settings.question | escape }}</span>
+                  <span class="about-faq__toggle" aria-hidden="true"></span>
+                </summary>
+                {%- if block.settings.answer != blank -%}
+                  <div class="about-faq__answer rte">{{ block.settings.answer }}</div>
+                {%- endif -%}
+              </details>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- else -%}
+          {%- assign default_faqs = 'Can I request custom sizing or a bespoke piece?|<p>Yes! Whether you need a tailored fit, a custom pairing for a wedding or celebration, or want to create a personal keepsake, reach out via Contact Us or WhatsApp.</p>||Can I visit the Treasures by Tiara studio in Mumbai?|<p>Of course. Visit us at <strong>Shop 008 New Poornima Apartment, S.R. Gopalrao Deshmukh Marg (Kemps Corner), Mumbai – 400026</strong>, Monday to Saturday between 11:00 AM and 7:30 PM IST.</p>||How should I care for my jewellery, corsets, and gloves?|<p>Store jewellery flat in a dry pouch away from humidity, sprays, and perfumes, wiping gently with a soft dry cloth after wear. For delicate corsets and evening gloves, spot clean gently and store loosely folded away from clasps.</p>||Where can I experience Try-On Taverns & pop-ups?|<p>We host curated Trunk Shows, Try-On Taverns, and multi-designer showcases across India throughout the year. Join our Treasure List newsletter in the footer or message us on WhatsApp for upcoming city dates.</p>' | split: '||' -%}
+          {%- for faq in default_faqs -%}
+            {%- assign faq_parts = faq | split: '|' -%}
+            <details class="about-faq__item">
+              <summary class="about-faq__question">
+                <span>{{ faq_parts[0] | escape }}</span>
+                <span class="about-faq__toggle" aria-hidden="true"></span>
+              </summary>
+              <div class="about-faq__answer rte">{{ faq_parts[1] }}</div>
+            </details>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- comment -%} 9. Mumbai Studio & Concierge CTA Banner {%- endcomment -%}
+    <div class="about-studio-cta">
+      <div class="about-studio-cta__info">
+        <p class="about-eyebrow about-eyebrow--start">
+          <span>{{ studio_eyebrow | escape }}</span>
+        </p>
+        <h2 class="about-heading">{{ studio_heading | escape }}</h2>
+        <p class="about-subheading about-subheading--left">{{ studio_text | escape }}</p>
+
+        <div class="about-studio-cta__meta">
+          <span><strong>Studio:</strong> {{ studio_address | escape }}</span>
+          <span><strong>Hours:</strong> {{ studio_hours | escape }}</span>
+          <span><strong>Phone:</strong> <a href="tel:{{ phone_href }}">{{ phone_raw | escape }}</a></span>
+          <span><strong>Email:</strong> <a href="mailto:{{ email_clean }}">{{ email_clean | escape }}</a></span>
+        </div>
+      </div>
+
+      <div class="about-studio-cta__actions">
+        <a href="{{ studio_cta_primary_link }}" class="about-btn about-btn--primary">
+          <span>{{ studio_cta_primary_label | escape }}</span>
+        </a>
+        <a href="{{ studio_cta_secondary_link }}" class="about-btn about-btn--outline">
+          <span>{{ studio_cta_secondary_label | escape }}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
