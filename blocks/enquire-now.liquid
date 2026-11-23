@@ -1,0 +1,734 @@
+{% liquid
+  assign product_obj = block.settings.product
+  if request.visual_preview_mode and product_obj == blank
+    assign product_obj = collections.all.products.first
+  endif
+
+  assign current_variant = product_obj.selected_or_first_available_variant
+  assign btn_label = block.settings.button_label | default: 'Enquire Now' | strip
+  assign style_class = block.settings.style_class | default: 'button'
+
+  assign wa_raw = block.settings.whatsapp_number | strip
+  if wa_raw == blank
+    assign wa_raw = settings.whatsapp_float_number | default: '+91 98675 59430' | strip
+  endif
+  assign wa_digits = wa_raw | remove: '+' | remove: ' ' | remove: '-' | remove: '(' | remove: ')'
+
+  assign rel_product_url = current_variant.url | default: product_obj.url
+  assign product_full_url = shop.url | append: rel_product_url
+  assign default_wa_text = 'Hi Treasures by Tiara! I would like to enquire about ' | append: product_obj.title
+  if current_variant != blank and current_variant.title != 'Default Title'
+    assign default_wa_text = default_wa_text | append: ' (' | append: current_variant.title | append: ')'
+  endif
+  assign default_wa_text = default_wa_text | append: ' — ' | append: product_full_url
+  assign wa_encoded = default_wa_text | url_encode
+  assign wa_href = 'https://wa.me/' | append: wa_digits | append: '?text=' | append: wa_encoded
+
+  assign modal_id = 'EnquireModal-' | append: block.id
+  assign form_id = 'EnquireForm-' | append: block.id
+%}
+
+<div
+  id="EnquireNowBlock-{{ block.id }}"
+  class="enquire-now spacing-style"
+  style="{% render 'spacing-style', settings: block.settings %}"
+  data-enquire-block
+  data-product-title="{{ product_obj.title | escape }}"
+  data-wa-digits="{{ wa_digits | escape }}"
+  data-base-url="{{ shop.url | append: product_obj.url | escape }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="enquire-now__actions">
+    <button
+      type="button"
+      class="{{ style_class }} enquire-now__trigger"
+      aria-haspopup="dialog"
+      aria-controls="{{ modal_id }}"
+      data-enquire-open
+    >
+      <svg class="enquire-now__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+      </svg>
+      <span>{{ btn_label | escape }}</span>
+    </button>
+
+    {%- if block.settings.show_whatsapp_quick_btn and wa_digits != blank -%}
+      <a
+        href="{{ wa_href }}"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="button-secondary enquire-now__wa-link"
+        data-enquire-wa-link
+      >
+        <svg class="enquire-now__icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          {% render 'icon', icon: 'whatsapp' %}
+        </svg>
+        <span>{{ block.settings.whatsapp_button_label | default: 'WhatsApp' | escape }}</span>
+      </a>
+    {%- endif -%}
+  </div>
+
+  <dialog
+    id="{{ modal_id }}"
+    class="enquire-dialog"
+    aria-labelledby="{{ modal_id }}-title"
+    data-enquire-dialog
+  >
+    <div class="enquire-dialog__card">
+      <div class="enquire-dialog__header">
+        <div>
+          <p class="enquire-dialog__eyebrow">Treasures by Tiara Concierge</p>
+          <h2 id="{{ modal_id }}-title" class="enquire-dialog__title">
+            {{ block.settings.modal_heading | default: 'Product Enquiry' | escape }}
+          </h2>
+        </div>
+        <button
+          type="button"
+          class="enquire-dialog__close"
+          aria-label="Close product enquiry"
+          data-enquire-close
+        >
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <path d="M5 5l10 10M15 5L5 15" />
+          </svg>
+        </button>
+      </div>
+
+      {%- if block.settings.modal_subtitle != blank -%}
+        <p class="enquire-dialog__subtitle">{{ block.settings.modal_subtitle | escape }}</p>
+      {%- endif -%}
+
+      {%- if product_obj != blank -%}
+        <div class="enquire-dialog__product">
+          {%- if product_obj.featured_media != blank -%}
+            <div class="enquire-dialog__thumb">
+              {{
+                product_obj.featured_media.preview_image
+                | image_url: width: 160
+                | image_tag:
+                  widths: '80, 160',
+                  sizes: '64px',
+                  loading: 'lazy',
+                  alt: product_obj.title
+              }}
+            </div>
+          {%- endif -%}
+          <div class="enquire-dialog__product-info">
+            <p class="enquire-dialog__product-title">{{ product_obj.title | escape }}</p>
+            <p class="enquire-dialog__product-meta">
+              <span>{{ current_variant.price | default: product_obj.price | money }}</span>
+              <span
+                class="enquire-dialog__variant{% if current_variant.title == 'Default Title' or current_variant == blank %} hidden{% endif %}"
+                data-enquire-variant-label
+              >
+                &middot; {{ current_variant.title | escape }}
+              </span>
+            </p>
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- form 'contact', id: form_id, class: 'enquire-form' -%}
+        {%- if form.errors -%}
+          <div class="enquire-form__notice enquire-form__notice--error" data-auto-open="true" tabindex="-1">
+            {{- 'icon-error.svg' | inline_asset_content -}}
+            <span>{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}</span>
+          </div>
+        {%- elsif form.posted_successfully? -%}
+          <div class="enquire-form__notice enquire-form__notice--success" data-auto-open="true" tabindex="-1">
+            {{- 'icon-checkmark.svg' | inline_asset_content -}}
+            <span>Thank you! Your enquiry for {{ product_obj.title | escape }} has been sent. Our team will reply soon.</span>
+          </div>
+        {%- endif -%}
+
+        <input type="hidden" name="contact[product_name]" value="{{ product_obj.title | escape }}">
+        <input
+          type="hidden"
+          name="contact[variant]"
+          value="{{ current_variant.title | default: 'Standard' | escape }}"
+          data-enquire-variant-input
+        >
+        <input
+          type="hidden"
+          name="contact[product_url]"
+          value="{{ product_full_url | escape }}"
+          data-enquire-url-input
+        >
+
+        <div class="enquire-form__row">
+          <div class="enquire-form__field">
+            <label for="{{ form_id }}-name">Name</label>
+            <input
+              id="{{ form_id }}-name"
+              type="text"
+              name="contact[name]"
+              autocomplete="name"
+              value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+              placeholder="Your name"
+            >
+          </div>
+
+          <div class="enquire-form__field">
+            <label for="{{ form_id }}-email">Email <span aria-hidden="true">*</span></label>
+            <input
+              id="{{ form_id }}-email"
+              type="email"
+              name="contact[email]"
+              autocomplete="email"
+              required
+              aria-required="true"
+              value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+              placeholder="you@example.com"
+            >
+          </div>
+        </div>
+
+        <div class="enquire-form__field">
+          <label for="{{ form_id }}-phone">Phone / WhatsApp Number</label>
+          <input
+            id="{{ form_id }}-phone"
+            type="tel"
+            name="contact[phone]"
+            autocomplete="tel"
+            value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+            placeholder="+91 98675 59430"
+          >
+        </div>
+
+        <div class="enquire-form__field">
+          <label for="{{ form_id }}-body">Enquiry Details</label>
+          <textarea
+            id="{{ form_id }}-body"
+            rows="4"
+            name="contact[body]"
+            required
+            placeholder="Share your question about sizing, customization, finish, or delivery..."
+          >{%- if form.body -%}{{ form.body }}{%- elsif product_obj != blank -%}Hi, I would like to enquire about {{ product_obj.title | escape }}{% if current_variant != blank and current_variant.title != 'Default Title' %} ({{ current_variant.title | escape }}){% endif %}.{%- endif -%}</textarea>
+        </div>
+
+        <div class="enquire-form__footer">
+          <button type="submit" class="button enquire-form__submit">
+            <span>Send Enquiry</span>
+          </button>
+
+          {%- if wa_digits != blank -%}
+            <a
+              href="{{ wa_href }}"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="button-secondary enquire-form__wa-btn"
+              data-enquire-wa-link
+            >
+              <svg class="enquire-now__icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                {% render 'icon', icon: 'whatsapp' %}
+              </svg>
+              <span>Chat on WhatsApp</span>
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endform -%}
+    </div>
+  </dialog>
+</div>
+
+<script>
+  (() => {
+    const root = document.getElementById('EnquireNowBlock-{{ block.id }}');
+    if (!root) return;
+
+    const dialog = root.querySelector('[data-enquire-dialog]');
+    const openBtn = root.querySelector('[data-enquire-open]');
+    const closeBtn = root.querySelector('[data-enquire-close]');
+    if (!dialog || !openBtn) return;
+
+    const productTitle = root.dataset.productTitle || '';
+    const waDigits = root.dataset.waDigits || '';
+    const baseUrl = root.dataset.baseUrl || window.location.href;
+    const variantLabel = root.querySelector('[data-enquire-variant-label]');
+    const variantInput = root.querySelector('[data-enquire-variant-input]');
+    const urlInput = root.querySelector('[data-enquire-url-input]');
+    const waLinks = root.querySelectorAll('[data-enquire-wa-link]');
+
+    const getSelectedVariantInfo = () => {
+      const scope = root.closest('.product-information') || document;
+      const checkedInputs = Array.from(scope.querySelectorAll('variant-picker input:checked, variant-picker select'));
+      const parts = checkedInputs
+        .map((el) => (el.tagName === 'SELECT' ? el.options[el.selectedIndex]?.textContent : el.value))
+        .map((val) => (val || '').trim())
+        .filter((val) => val && val !== 'Default Title');
+
+      const variantTitle = parts.join(' / ');
+      const activeUrl = window.location.href || baseUrl;
+      return { variantTitle, activeUrl };
+    };
+
+    const syncContext = () => {
+      const { variantTitle, activeUrl } = getSelectedVariantInfo();
+      if (variantLabel) {
+        if (variantTitle) {
+          variantLabel.textContent = ' · ' + variantTitle;
+          variantLabel.classList.remove('hidden');
+        } else {
+          variantLabel.classList.add('hidden');
+        }
+      }
+      if (variantInput && variantTitle) variantInput.value = variantTitle;
+      if (urlInput) urlInput.value = activeUrl;
+
+      if (waDigits && waLinks.length) {
+        const msg =
+          'Hi Treasures by Tiara! I would like to enquire about ' +
+          productTitle +
+          (variantTitle ? ' (' + variantTitle + ')' : '') +
+          ' — ' +
+          activeUrl;
+        const href = 'https://wa.me/' + waDigits + '?text=' + encodeURIComponent(msg);
+        waLinks.forEach((link) => link.setAttribute('href', href));
+      }
+    };
+
+    openBtn.addEventListener('click', () => {
+      syncContext();
+      if (!dialog.open) dialog.showModal();
+    });
+
+    waLinks.forEach((link) => {
+      link.addEventListener('click', syncContext);
+    });
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => dialog.close());
+    }
+
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+
+    document.addEventListener('variant:update', syncContext);
+
+    if (root.querySelector('[data-auto-open="true"]')) {
+      syncContext();
+      if (!dialog.open) dialog.showModal();
+    }
+  })();
+</script>
+
+{% stylesheet %}
+  .enquire-now {
+    width: 100%;
+  }
+
+  .enquire-now__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .enquire-now__trigger,
+  .enquire-now__wa-link {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 46px;
+    padding: 10px 20px;
+    border-radius: 999px !important;
+    font-family: 'Plus Jakarta Sans', var(--font-body--family), sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  .enquire-now__trigger {
+    flex: 1 1 180px;
+  }
+
+  .enquire-now__wa-link {
+    flex: 0 1 auto;
+    color: #146c3a;
+    border-color: rgba(20, 108, 58, 0.42);
+    background-color: var(--color-input-background);
+  }
+
+  @media (hover: hover) {
+    .enquire-now__wa-link:hover {
+      background-color: #146c3a;
+      border-color: #146c3a;
+      color: #ffffff;
+    }
+  }
+
+  .enquire-now__icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  /* Enquiry Dialog */
+  .enquire-dialog {
+    margin: auto;
+    padding: 0;
+    width: min(560px, 94vw);
+    max-width: 94vw;
+    max-height: 90dvh;
+    overflow-y: auto;
+    border: none;
+    background: transparent;
+    color: var(--color-foreground);
+  }
+
+  .enquire-dialog::backdrop {
+    background: rgba(20, 16, 10, 0.56);
+    backdrop-filter: blur(4px);
+  }
+
+  .enquire-dialog__card {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--color-background, #fffaeb);
+    border: 1px solid rgb(from var(--color-primary) r g b / 0.34);
+    border-radius: 24px;
+    padding: 28px 28px 26px;
+    box-shadow: 0 24px 54px rgba(0, 0, 0, 0.22);
+    font-family: 'Plus Jakarta Sans', var(--font-body--family), sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .enquire-dialog__card::before {
+    content: '';
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent 8%, #d6a86e 32%, var(--color-primary) 50%, #d6a86e 68%, transparent 92%);
+  }
+
+  .enquire-dialog__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .enquire-dialog__eyebrow {
+    margin: 0 0 2px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+  }
+
+  .enquire-dialog__title {
+    margin: 0;
+    font-family: 'Cormorant Garamond', Georgia, serif !important;
+    font-size: clamp(1.65rem, 3vw, 2.05rem);
+    font-weight: 600;
+    line-height: 1.15;
+    color: var(--color-foreground-heading);
+  }
+
+  .enquire-dialog__close {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid rgb(from var(--color-primary) r g b / 0.3);
+    background-color: var(--color-input-background);
+    color: var(--color-foreground);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .enquire-dialog__close:hover {
+    background-color: var(--color-primary);
+    color: var(--color-primary-button-text);
+  }
+
+  .enquire-dialog__close svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .enquire-dialog__subtitle {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: rgb(from var(--color-foreground) r g b / 0.76);
+  }
+
+  .enquire-dialog__product {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 16px;
+    background-color: var(--color-input-background);
+    border: 1px solid rgb(from var(--color-primary) r g b / 0.22);
+  }
+
+  .enquire-dialog__thumb {
+    width: 52px;
+    height: 62px;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background-color: var(--color-background);
+  }
+
+  .enquire-dialog__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .enquire-dialog__product-title {
+    margin: 0 0 2px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--color-foreground-heading);
+  }
+
+  .enquire-dialog__product-meta {
+    margin: 0;
+    font-size: 0.82rem;
+    color: rgb(from var(--color-foreground) r g b / 0.74);
+  }
+
+  .enquire-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .enquire-form__row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .enquire-form__field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .enquire-form__field label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgb(from var(--color-foreground) r g b / 0.82);
+  }
+
+  .enquire-form__field input,
+  .enquire-form__field textarea {
+    width: 100%;
+    padding: 11px 14px;
+    border-radius: 14px;
+    border: 1px solid rgb(from var(--color-primary) r g b / 0.3);
+    background-color: var(--color-input-background, #ffffff);
+    color: var(--color-input-text-color, var(--color-foreground));
+    font-family: inherit;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
+  .enquire-form__field input:focus,
+  .enquire-form__field textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgb(from var(--color-primary) r g b / 0.14);
+  }
+
+  .enquire-form__notice {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 0.85rem;
+    line-height: 1.45;
+  }
+
+  .enquire-form__notice svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  .enquire-form__notice--success {
+    background-color: rgba(20, 108, 58, 0.1);
+    color: #146c3a;
+    border: 1px solid rgba(20, 108, 58, 0.3);
+  }
+
+  .enquire-form__notice--error {
+    background-color: rgba(139, 0, 0, 0.08);
+    color: var(--color-error, #8b0000);
+    border: 1px solid rgba(139, 0, 0, 0.28);
+  }
+
+  .enquire-form__footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 4px;
+  }
+
+  .enquire-form__submit {
+    flex: 1 1 170px;
+    min-height: 46px;
+  }
+
+  .enquire-form__wa-btn {
+    flex: 1 1 160px;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 46px;
+    color: #146c3a;
+    border-color: rgba(20, 108, 58, 0.45);
+  }
+
+  @media (hover: hover) {
+    .enquire-form__wa-btn:hover {
+      background-color: #146c3a;
+      border-color: #146c3a;
+      color: #ffffff;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .enquire-dialog__card {
+      padding: 22px 18px 20px;
+      border-radius: 20px;
+    }
+
+    .enquire-form__row {
+      grid-template-columns: 1fr;
+    }
+
+    .enquire-now__actions,
+    .enquire-form__footer {
+      flex-direction: column;
+    }
+
+    .enquire-now__trigger,
+    .enquire-now__wa-link,
+    .enquire-form__submit,
+    .enquire-form__wa-btn {
+      width: 100%;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Enquire Now",
+  "tag": null,
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "t:settings.product"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Enquire Now"
+    },
+    {
+      "type": "select",
+      "id": "style_class",
+      "label": "Button style",
+      "options": [
+        {
+          "value": "button",
+          "label": "Primary"
+        },
+        {
+          "value": "button-secondary",
+          "label": "Secondary"
+        }
+      ],
+      "default": "button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_whatsapp_quick_btn",
+      "label": "Show quick WhatsApp button beside Enquire Now",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_button_label",
+      "label": "WhatsApp button label",
+      "default": "WhatsApp"
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_number",
+      "label": "WhatsApp number override (optional)"
+    },
+    {
+      "type": "text",
+      "id": "modal_heading",
+      "label": "Modal heading",
+      "default": "Product Enquiry"
+    },
+    {
+      "type": "textarea",
+      "id": "modal_subtitle",
+      "label": "Modal description",
+      "default": "Have a question about sizing, customization, or styling? Send us an enquiry and our concierge will assist you."
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    }
+  ],
+  "presets": [
+    {
+      "name": "Enquire Now",
+      "category": "t:categories.product",
+      "settings": {
+        "product": "{{ closest.product }}"
+      }
+    }
+  ]
+}
+{% endschema %}
