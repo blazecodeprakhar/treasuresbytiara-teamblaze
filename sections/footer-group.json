@@ -173,6 +173,21 @@
                   },
                   "blocks": {}
                 },
+                "about_story_btn": {
+                  "type": "button",
+                  "name": "About Us Link",
+                  "settings": {
+                    "label": "Our Story — About Us",
+                    "link": "/pages/about",
+                    "open_in_new_tab": false,
+                    "style_class": "button-secondary",
+                    "width": "fit-content",
+                    "custom_width": 100,
+                    "width_mobile": "fit-content",
+                    "custom_width_mobile": 100
+                  },
+                  "blocks": {}
+                },
                 "newsletter_heading": {
                   "type": "text",
                   "name": "Newsletter Heading",
@@ -227,6 +242,7 @@
               "block_order": [
                 "group_logo_link",
                 "brand_tagline",
+                "about_story_btn",
                 "newsletter_heading",
                 "email_signup_footer"
               ]
@@ -598,6 +614,8 @@
               "type": "footer-utilities",
               "name": "t:names.footer_utilities",
               "settings": {
+                "show_about_link": true,
+                "show_contact_link": true,
                 "divider_thickness": 1,
                 "padding-block-start": 20,
                 "padding-block-end": 24

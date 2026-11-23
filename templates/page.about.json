@@ -1,0 +1,135 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "about_main": {
+      "type": "about-page",
+      "blocks": {
+        "col_necklaces": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "necklaces",
+            "title": "Necklaces",
+            "subtitle": "Layered chains & statement pendants",
+            "link": "/collections/necklaces"
+          }
+        },
+        "col_earrings": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "earings-1",
+            "title": "Earrings",
+            "subtitle": "Sculpted drops, hoops & studs",
+            "link": "/collections/earings-1"
+          }
+        },
+        "col_rings": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "rings",
+            "title": "Rings",
+            "subtitle": "Heirloom-inspired bands & statement rings",
+            "link": "/collections/rings"
+          }
+        },
+        "col_bracelets": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "bracelet",
+            "title": "Bracelets",
+            "subtitle": "Delicate cuffs & wrist treasures",
+            "link": "/collections/bracelet"
+          }
+        },
+        "col_cufflinks": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "cufflinks",
+            "title": "Cufflinks",
+            "subtitle": "Refined accents for tailored looks",
+            "link": "/collections/cufflinks"
+          }
+        },
+        "col_corsets_gloves": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "corsets-gloves",
+            "title": "Corsets & Gloves",
+            "subtitle": "Signature silhouettes & evening gloves",
+            "link": "/collections/corsets-gloves"
+          }
+        }
+      },
+      "block_order": [
+        "col_necklaces",
+        "col_earrings",
+        "col_rings",
+        "col_bracelets",
+        "col_cufflinks",
+        "col_corsets_gloves"
+      ],
+      "settings": {
+        "hero_eyebrow": "Our Story",
+        "hero_heading": "Treasures Crafted for the Story You Tell",
+        "hero_subtitle": "Designer treasures you’d find in an enchanted chest — fairly priced for the girl who buys it for herself.",
+        "crest_caption": "Jewellery · Corsets · Gloves · Bespoke",
+        "hero_primary_label": "Explore Collections",
+        "hero_primary_link": "/collections/all-products",
+        "hero_secondary_label": "Visit Our Studio",
+        "hero_secondary_link": "/pages/contact",
+        "story_eyebrow": "Treasure Yourself",
+        "story_heading": "Designed for Moments Big & Everyday",
+        "story_text": "<p>Treasures by Tiara was born from a simple belief: fine-looking designer pieces shouldn’t feel out of reach or sit locked away waiting for a rare occasion.</p><p>From sculpted necklaces, earrings, rings, bracelets, and cufflinks to signature corsets and fashion gloves, every creation blends heirloom romance with modern self-expression — thoughtfully priced so you can treasure yourself freely.</p>",
+        "pillar_1_title": "Thoughtful Craft & Fair Pricing",
+        "pillar_1_text": "Signature designer appeal crafted with care and priced fairly for women who choose their own treasures.",
+        "pillar_2_title": "Bespoke Jewellery Styling",
+        "pillar_2_text": "Collaborate with us to turn personal inspiration, custom sizing, or bridal styling into your own keepsake.",
+        "pillar_3_title": "Rooted in Mumbai, Shared Nationwide",
+        "pillar_3_text": "Visit our Kemps Corner studio in Mumbai or experience our collections live at curated showcases across India.",
+        "process_eyebrow": "Bespoke Journey",
+        "process_heading": "Turn Your Treasure Into a Jewel",
+        "process_subtitle": "Four thoughtful steps from your first spark of an idea to a finished piece made uniquely for you.",
+        "step_1_title": "Tell Us Your Treasure",
+        "step_1_text": "Share your story, occasion, or styling mood with our team.",
+        "step_2_title": "We Imagine Together",
+        "step_2_text": "We refine proportions, stones, and pairings around your personal style.",
+        "step_3_title": "Your Jewel Comes to Life",
+        "step_3_text": "Every clasp, setting, and silhouette is finished with meticulous attention.",
+        "step_4_title": "Your Treasure, Forever Yours",
+        "step_4_text": "Packaged with care and ready to wear, gift, and keep for years ahead.",
+        "collections_eyebrow": "Explore Our World",
+        "collections_heading": "Signature Categories",
+        "collections_subtitle": "Browse our enchanted chest of jewellery, corsets, and gloves.",
+        "events_eyebrow": "In The Spotlight",
+        "events_heading": "Curated Events & Try-On Taverns",
+        "events_text": "<p>Treasures by Tiara comes to life through curated events across the country — from exclusive trunk shows to immersive experiences. Each showcase is a chance to explore the collection in person, try on signature pieces, and discover the stories behind them.</p><p>Whether you’re stepping into a Try-On Tavern, a private preview, or a multi-designer exhibition, our events are designed for you to arrive as you are and leave with something unforgettable.</p>",
+        "events_tags": "Trunk Shows, Try-On Taverns, Private Previews, Multi-Designer Exhibitions",
+        "studio_eyebrow": "Visit Our Atelier",
+        "studio_heading": "Experience Treasures by Tiara in Person",
+        "studio_text": "Have a bespoke idea, sizing question, or want to try on pieces in person? Connect with our Mumbai studio concierge.",
+        "studio_address": "Shop 008 New Poornima Apartment, S.R. Gopalrao Deshmukh Marg, Mumbai – 400026",
+        "studio_hours": "Mon – Sat · 11:00 AM – 7:30 PM IST",
+        "studio_phone": "+91 98675 59430",
+        "studio_email": "treasuresbytiara@gmail.com",
+        "studio_cta_primary_label": "Contact Us",
+        "studio_cta_primary_link": "/pages/contact",
+        "studio_cta_secondary_label": "Shop All Pieces",
+        "studio_cta_secondary_link": "/collections/all-products",
+        "section_width": "page-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 40,
+        "padding-block-end": 64
+      }
+    }
+  },
+  "order": [
+    "about_main"
+  ]
+}

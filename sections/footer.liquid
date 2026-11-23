@@ -46,7 +46,12 @@
     --footer-ease: cubic-bezier(0.22, 1, 0.36, 1);
 
     position: relative;
+    overflow-x: clip;
     font-family: var(--footer-sans);
+  }
+
+  .site-footer .group-block-content.layout-panel-flex--row {
+    flex-wrap: wrap;
   }
 
   .site-footer::before {
@@ -350,6 +355,23 @@
   .site-footer .social-icons__icon {
     width: 17px;
     height: 17px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .site-footer .group-block[style*='--border-style: solid'] {
+      padding: 22px 18px !important;
+      border-radius: 18px !important;
+    }
+
+    .site-footer .email-signup__input {
+      padding: 8px 12px;
+      font-size: 0.84rem;
+    }
+
+    .site-footer .email-signup__button {
+      padding: 8px 16px !important;
+      font-size: 0.7rem;
+    }
   }
 {% endstylesheet %}
 

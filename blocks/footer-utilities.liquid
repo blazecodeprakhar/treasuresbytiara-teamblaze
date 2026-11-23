@@ -7,6 +7,20 @@
 >
   <div class="footer-utilities__group footer-utilities__group--left">
     {% content_for 'block', type: '_footer-copyright', id: 'copyright' %}
+    {%- if block.settings.show_about_link or block.settings.show_contact_link -%}
+      <ul class="footer-utilities__quick-links list-unstyled" aria-label="Footer quick links">
+        {%- if block.settings.show_about_link -%}
+          <li>
+            <a href="/pages/about" class="footer-utilities__text">About Us</a>
+          </li>
+        {%- endif -%}
+        {%- if block.settings.show_contact_link -%}
+          <li>
+            <a href="/pages/contact" class="footer-utilities__text">Contact Us</a>
+          </li>
+        {%- endif -%}
+      </ul>
+    {%- endif -%}
     {% content_for 'block', type: '_footer-policy-list', id: 'policy_list' %}
   </div>
 
@@ -22,7 +36,7 @@
     flex-direction: column;
     align-items: center;
     gap: var(--gap-lg);
-    text-wrap: nowrap;
+    text-wrap: wrap;
     border-top: var(--border-width) solid var(--color-border);
     color: var(--color-foreground-muted);
 
@@ -32,6 +46,18 @@
       gap: var(--gap-md);
       align-items: center;
       text-align: left;
+    }
+  }
+
+  .footer-utilities__quick-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--gap-2xs) var(--gap-sm);
+    font-size: 0.75rem;
+
+    @media screen and (width >= 750px) {
+      justify-content: flex-start;
     }
   }
 
@@ -75,6 +101,18 @@
   "name": "t:names.footer_utilities",
   "tag": null,
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_about_link",
+      "label": "Show About Us link",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_contact_link",
+      "label": "Show Contact Us link",
+      "default": true
+    },
     {
       "type": "header",
       "content": "t:content.appearance"
