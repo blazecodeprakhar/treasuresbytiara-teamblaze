@@ -1,0 +1,220 @@
+{% schema %}
+{
+  "name": "Pirate Global Events",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "map_image_desktop",
+      "label": "Treasure Map Image (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "map_image_mobile",
+      "label": "Treasure Map Image (Mobile)"
+    },
+    {
+      "type": "text",
+      "id": "default_country",
+      "label": "Default Country ID",
+      "default": "india"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "location",
+      "name": "Map Location",
+      "settings": [
+        {"type": "text", "id": "country_id", "label": "Country ID (unique, e.g. 'india')"},
+        {"type": "text", "id": "top", "label": "Top Position (%)"},
+        {"type": "text", "id": "left", "label": "Left Position (%)"},
+        {"type": "text", "id": "tooltip", "label": "Tooltip Label"},
+        {"type": "image_picker", "id": "marker_image", "label": "Marker Image"},
+        {"type": "url", "id": "video1", "label": "Video 1 URL"},
+        {"type": "url", "id": "video2", "label": "Video 2 URL"},
+        {"type": "url", "id": "video3", "label": "Video 3 URL"},
+        {"type": "url", "id": "video4", "label": "Video 4 URL"},
+        {"type": "url", "id": "video5", "label": "Video 5 URL"}
+      ]
+    }
+  ],
+  "max_blocks": 25,
+  "presets": [
+    {"name": "Pirate Global Events", "category": "Custom"}
+  ]
+}
+{% endschema %}
+
+<style>
+  .pirate-map {
+   position: relative;
+    width: 100%;
+    padding: 1rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    height: 100%;
+    background-image: url(https://cdn.shopify.com/s/files/1/0722/0799/0807/files/A_Cream_to_nourish_and_9.png?v=1752661818);
+    background-repeat: no-repeat;
+    padding-bottom: 120px;
+  }
+.map-container {
+  position: relative;
+  flex: 0 0 40%;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  height: auto; /* ← REMOVE any height constraints */
+}
+  .map-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    flex-grow: 1;
+  }
+  .map-marker {
+    position: absolute;
+    cursor: pointer;
+    text-align: center;
+    transform: translate(-50%, -50%);
+  }
+  .map-marker img {
+    width: 32px;
+    height: 32px;
+    display: block;
+    margin: 0 auto;
+  }
+  .map-marker span {
+    display: block;
+    font-size: 12px;
+    color: #7b1e1e;
+    font-weight: bold;
+    text-shadow: 0 0 2px #fff;
+  }
+  .captains-log {
+    flex: 0 0 60%;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    box-sizing: border-box;
+  }
+  .captains-log h3 {
+    margin: 0 0 0.5rem 0;
+    flex-shrink: 0;
+  }
+  #videoContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-grow: 1;
+  }
+  .captains-log video {
+    max-width: 300px;
+    flex-shrink: 0;
+  }
+  /* Hide scrollbar for video container */
+#videoContainer::-webkit-scrollbar {
+  display: none;
+}
+#videoContainer {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+  @media (max-width: 767px) {
+  .pirate-map {
+    flex-direction: column;
+  }
+   .captains-log video {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+  .captains-log video {
+  border: 2px dotted #902e13;
+  border-radius: 8px;
+  padding: 4px;
+}
+
+</style>
+
+<div class="pirate-map" id="pirateMapSection">
+  <div class="map-container">
+    <img 
+      id="pirateMapImage" 
+      src="{{ section.settings.map_image_desktop | image_url }}" 
+      alt="Treasure Map"
+      data-desktop="{{ section.settings.map_image_desktop | image_url }}"
+      data-mobile="{{ section.settings.map_image_mobile | image_url }}"
+    >
+    {% for block in section.blocks %}
+      <div 
+        class="map-marker" 
+        style="top: {{ block.settings.top }}%; left: {{ block.settings.left }}%;"
+        data-country="{{ block.settings.country_id }}"
+        data-videos='[
+          "{{ block.settings.video1 }}",
+          "{{ block.settings.video2 }}",
+          "{{ block.settings.video3 }}",
+          "{{ block.settings.video4 }}",
+          "{{ block.settings.video5 }}"
+        ]'
+        title="{{ block.settings.tooltip }}"
+      >
+        <img src="{{ block.settings.marker_image | image_url }}" alt="X Marker" />
+        <span>{{ block.settings.tooltip }}</span>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="captains-log" id="captainsLog">
+    <div id="videoContainer"></div>
+  </div>
+</div>
+
+<script>
+ function loadVideos(videoUrls) {
+  const container = document.getElementById('videoContainer');
+  container.innerHTML = '';
+
+  videoUrls.filter(Boolean).forEach(url => {
+    const vid = document.createElement('video');
+    vid.src = url;
+    vid.controls = true;
+    vid.autoplay = true;
+    vid.muted = true;
+    vid.playsInline = true;
+    vid.controlsList = "nodownload noplaybackrate";
+    container.appendChild(vid);
+  });
+}
+
+  document.querySelectorAll('.map-marker').forEach(marker => {
+    marker.addEventListener('click', () => {
+      const videos = JSON.parse(marker.dataset.videos);
+      loadVideos(videos);
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const defaultCountry = '{{ section.settings.default_country }}';
+    const defaultMarker = [...document.querySelectorAll('.map-marker')].find(
+      el => el.dataset.country === defaultCountry
+    );
+    if (defaultMarker) {
+      const videos = JSON.parse(defaultMarker.dataset.videos);
+      loadVideos(videos);
+    }
+
+    const pirateImg = document.getElementById('pirateMapImage');
+    const updateMapImg = () => {
+      pirateImg.src = window.innerWidth < 768 ? pirateImg.dataset.mobile : pirateImg.dataset.desktop;
+    };
+    window.addEventListener('resize', updateMapImg);
+    updateMapImg();
+  });
+</script>

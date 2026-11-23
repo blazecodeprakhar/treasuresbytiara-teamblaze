@@ -1,0 +1,369 @@
+<style>
+
+.contact-info-wrapper{
+max-width:1200px;
+margin:60px auto;
+padding:0 20px;
+font-family:inherit;
+}
+
+.contact-box{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:25px;
+}
+
+.info-card{
+background:#FFFDF8;
+border:1px solid #D9B24C;
+border-radius:18px;
+padding:35px;
+text-align:center;
+box-shadow:0 8px 25px rgba(0,0,0,.08);
+transition:.35s ease;
+}
+
+.info-card:hover{
+transform:translateY(-8px);
+box-shadow:0 20px 40px rgba(0,0,0,.15);
+}
+
+.info-icon{
+width:72px;
+height:72px;
+background:#b8860b;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+margin:auto auto 20px;
+font-size:34px;
+color:#fff;
+}
+
+.info-title{
+font-size:26px;
+font-weight:700;
+margin-bottom:12px;
+color:#A17400;
+}
+
+.info-text{
+font-size:17px;
+line-height:30px;
+color:#555;
+}
+
+.info-text a{
+color:#555;
+text-decoration:none;
+}
+
+.info-text a:hover{
+color:#b8860b;
+}
+
+.support-box{
+margin-top:50px;
+background:#FFF8EC;
+border:1px solid #E6C772;
+border-radius:20px;
+padding:45px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:30px;
+box-shadow:0 10px 30px rgba(0,0,0,.05);
+}
+
+.support-content h2{
+font-size:36px;
+margin-bottom:10px;
+color:#A17400;
+}
+
+.support-content p{
+font-size:18px;
+line-height:30px;
+color:#666;
+margin:0;
+}
+
+.buttons{
+display:flex;
+gap:15px;
+flex-wrap:wrap;
+}
+
+.buttons a{
+display:inline-block;
+padding:15px 30px;
+border-radius:50px;
+font-size:16px;
+font-weight:600;
+text-decoration:none;
+transition:.3s;
+}
+
+.whatsapp{
+background:#25D366;
+color:#fff;
+}
+
+.call{
+background:#B8860B;
+color:#fff;
+}
+
+.email{
+background:#fff;
+color:#B8860B;
+border:2px solid #B8860B;
+}
+
+.buttons a:hover{
+transform:translateY(-4px);
+box-shadow:0 10px 20px rgba(0,0,0,.15);
+}
+
+
+
+
+
+
+/* Tablet */
+
+@media screen and (max-width:1024px){
+
+.contact-box{
+grid-template-columns:repeat(2,1fr);
+}
+
+.support-box{
+flex-direction:column;
+text-align:center;
+}
+
+.buttons{
+justify-content:center;
+}
+
+.support-content h2{
+font-size:32px;
+}
+
+}
+
+
+
+
+/* Mobile */
+
+@media screen and (max-width:767px){
+
+.contact-info-wrapper{
+padding:0 15px;
+margin:40px auto;
+}
+
+.contact-box{
+grid-template-columns:1fr;
+gap:18px;
+}
+
+.info-card{
+padding:28px 20px;
+}
+
+.info-icon{
+width:65px;
+height:65px;
+font-size:30px;
+}
+
+.info-title{
+font-size:24px;
+}
+
+.info-text{
+font-size:16px;
+line-height:28px;
+}
+
+.support-box{
+padding:30px 20px;
+flex-direction:column;
+text-align:center;
+}
+
+.support-content h2{
+font-size:28px;
+}
+
+.support-content p{
+font-size:16px;
+line-height:28px;
+}
+
+.buttons{
+width:100%;
+flex-direction:column;
+}
+
+.buttons a{
+width:100%;
+text-align:center;
+padding:16px;
+}
+
+}
+
+</style>
+
+<div class="contact-info-wrapper">
+
+<div class="contact-box">
+
+<div class="info-card">
+
+<div class="info-icon">
+📞
+</div>
+
+<div class="info-title">
+Call Us
+</div>
+
+<div class="info-text">
+
+<a href="tel:+919867559430">
+
++91 98675 59430
+
+</a>
+
+</div>
+
+</div>
+
+
+
+
+
+<div class="info-card">
+
+<div class="info-icon">
+✉️
+</div>
+
+<div class="info-title">
+Email Us
+</div>
+
+<div class="info-text">
+
+<a href="mailto:treasuresbytiara@gmail.com">
+
+treasuresbytiara@gmail.com
+
+</a>
+
+</div>
+
+</div>
+
+
+
+
+
+<div class="info-card">
+
+<div class="info-icon">
+📍
+</div>
+
+<div class="info-title">
+Visit Us
+</div>
+
+<div class="info-text">
+
+Shop 008 New Poornima Apartment
+
+<br>
+
+S.R. Gopalrao Deshmukh Marg
+
+<br>
+
+Mumbai – 400026
+
+</div>
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+<div class="support-box">
+
+<div class="support-content">
+
+<h2>Need Help?</h2>
+
+<p>
+
+Have questions about your order, jewellery, or shipping?
+
+<br>
+
+Our customer support team usually replies within <strong>24 Hours.</strong>
+
+</p>
+
+</div>
+
+<div class="buttons">
+
+<a href="https://wa.me/919867559430" target="_blank" class="whatsapp">
+
+💬 WhatsApp
+
+</a>
+
+<a href="tel:+919867559430" class="call">
+
+📞 Call Now
+
+</a>
+
+<a href="mailto:treasuresbytiara@gmail.com" class="email">
+
+✉️ Email Us
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+{% schema %}
+{
+  "name": "Contact Information",
+  "tag": "section",
+  "class": "contact-information-section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Contact Information"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,250 @@
+{% stylesheet %}
+.custom-slideshow {
+  position: relative;
+  overflow: hidden;
+}
+
+.custom-slideshow-wrapper {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  will-change: transform;
+  width: 100%;
+}
+
+.custom-slide {
+  flex: 0 0 100%;
+  position: relative;
+}
+
+.custom-slide img,
+.custom-slide video {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+@media screen and (max-width: 749px) {
+  .custom-slide .desktop-media { display: none; }
+  .custom-slide .mobile-media { display: block; }
+}
+
+@media screen and (min-width: 750px) {
+  .custom-slide .mobile-media { display: none; }
+  .custom-slide .desktop-media { display: block; }
+}
+
+.slideshow-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.slideshow-arrow.left { left: 10px; }
+.slideshow-arrow.right { right: 10px; }
+
+.slideshow-dots {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.slideshow-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 4px;
+  border-radius: 50%;
+  background-color: #ccc;
+  cursor: pointer;
+}
+
+.slideshow-dot.active {
+  background-color: #333;
+}
+{% endstylesheet %}
+
+<div class="custom-slideshow" id="custom-slideshow-{{ section.id }}" data-speed="{{ section.settings.slide_interval | times: 1000 }}">
+  <div class="custom-slideshow-wrapper" onmouseover="pauseSlideshow('{{ section.id }}')" onmouseout="resumeSlideshow('{{ section.id }}')">
+    {% for block in section.blocks %}
+      {% assign desktop_video = block.settings.desktop_video %}
+      {% assign mobile_video = block.settings.mobile_video %}
+      {% assign desktop_image = block.settings.desktop_image %}
+      {% assign mobile_image = block.settings.mobile_image %}
+      {% assign link = block.settings.slide_link %}
+
+      <div class="custom-slide">
+        {% if link != blank %}
+          <a href="{{ link }}" style="display:block; width:100%; height:100%;">
+        {% endif %}
+
+        <div class="desktop-media">
+          {% if desktop_video %}
+            <video autoplay loop muted playsinline>
+              <source src="{{ desktop_video | video_url }}" type="video/mp4">
+            </video>
+          {% elsif desktop_image %}
+            <img src="{{ desktop_image | image_url: width: 1500 }}" alt="Desktop Slide">
+          {% endif %}
+        </div>
+
+        <div class="mobile-media">
+          {% if mobile_video %}
+            <video autoplay loop muted playsinline>
+              <source src="{{ mobile_video | video_url }}" type="video/mp4">
+            </video>
+          {% elsif mobile_image %}
+            <img src="{{ mobile_image | image_url: width: 1000 }}" alt="Mobile Slide">
+          {% endif %}
+        </div>
+
+        {% if link != blank %}
+          </a>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+
+  {% if section.blocks.size > 1 %}
+    <button class="slideshow-arrow left" onclick="prevSlide('{{ section.id }}')">&#10094;</button>
+    <button class="slideshow-arrow right" onclick="nextSlide('{{ section.id }}')">&#10095;</button>
+
+    <div class="slideshow-dots" id="dots-{{ section.id }}">
+      {% for block in section.blocks %}
+        <span class="slideshow-dot {% if forloop.first %}active{% endif %}" onclick="goToSlide('{{ section.id }}', {{ forloop.index0 }})"></span>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+
+<script>
+  window.slideshowStates = window.slideshowStates || {};
+
+  (function() {
+    const id = "{{ section.id }}";
+    const container = document.getElementById("custom-slideshow-" + id);
+    const wrapper = container.querySelector(".custom-slideshow-wrapper");
+    const slides = container.querySelectorAll(".custom-slide");
+    const dots = container.querySelectorAll("#dots-" + id + " .slideshow-dot");
+    const speed = parseInt(container.dataset.speed || 3000);
+    let index = 0;
+    let intervalId;
+
+    function updateSlide() {
+      wrapper.style.transform = `translateX(-${index * 100}%)`;
+      dots.forEach(dot => dot.classList.remove("active"));
+      if (dots[index]) dots[index].classList.add("active");
+    }
+
+    window.nextSlide = function(slideshowId) {
+      if (slideshowId !== id) return;
+      index = (index + 1) % slides.length;
+      updateSlide();
+    };
+
+    window.prevSlide = function(slideshowId) {
+      if (slideshowId !== id) return;
+      index = (index - 1 + slides.length) % slides.length;
+      updateSlide();
+    };
+
+    window.goToSlide = function(slideshowId, i) {
+      if (slideshowId !== id) return;
+      index = i;
+      updateSlide();
+    };
+
+    window.pauseSlideshow = function(slideshowId) {
+      if (slideshowId !== id) return;
+      clearInterval(intervalId);
+    };
+
+    window.resumeSlideshow = function(slideshowId) {
+      if (slideshowId !== id) return;
+      clearInterval(intervalId);
+      intervalId = setInterval(() => nextSlide(id), speed);
+    };
+
+    // Swipe support
+    let startX = 0;
+    wrapper.addEventListener("touchstart", e => {
+      startX = e.touches[0].clientX;
+    });
+
+    wrapper.addEventListener("touchend", e => {
+      let endX = e.changedTouches[0].clientX;
+      if (startX - endX > 50) nextSlide(id);
+      else if (endX - startX > 50) prevSlide(id);
+    });
+
+    // Auto start
+    intervalId = setInterval(() => nextSlide(id), speed);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Custom Slideshow",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "slide_interval",
+      "label": "Slide transition interval (in seconds)",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 3
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "desktop_image",
+          "label": "Desktop Image / GIF"
+        },
+        {
+          "type": "video",
+          "id": "desktop_video",
+          "label": "Desktop Video"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile Image / GIF"
+        },
+        {
+          "type": "video",
+          "id": "mobile_video",
+          "label": "Mobile Video"
+        },
+        {
+          "type": "url",
+          "id": "slide_link",
+          "label": "Slide Link (optional)"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 20,
+  "presets": [
+    {
+      "name": "Custom Slideshow",
+      "category": "Media",
+      "blocks": [
+        { "type": "slide" },
+        { "type": "slide" }
+      ]
+    }
+  ]
+}
+{% endschema %}

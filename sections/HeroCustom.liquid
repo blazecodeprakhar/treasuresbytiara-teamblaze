@@ -1,0 +1,160 @@
+{% schema %}
+{
+  "name": "Custom Hero Section",
+  "tag": "section",
+  "class": "custom-hero-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "desktop_image",
+      "label": "Desktop Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile Image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Your Heading Here"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Your Subheading Here"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content Alignment",
+      "options": [
+        { "value": "start", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "end", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "url",
+      "id": "section_link",
+      "label": "Section Link (Makes Entire Section Clickable)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Hero",
+      "category": "Hero"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+.hero-section-link-wrapper {
+  display: block;
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+}
+
+.hero-section {
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+}
+
+.hero-section__image {
+  width: 100%;
+  display: none;
+}
+
+.hero-section__image--desktop {
+  display: block;
+}
+
+@media screen and (max-width: 749px) {
+  .hero-section__image--desktop {
+    display: none;
+  }
+  .hero-section__image--mobile {
+    display: block;
+  }
+}
+
+.hero-section__content {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  text-align: center;
+  padding: 1rem;
+  color: white;
+  z-index: 2;
+}
+
+.hero-section__content.start {
+  text-align: left;
+  left: 2rem;
+}
+
+.hero-section__content.end {
+  text-align: right;
+  right: 2rem;
+}
+
+.hero-section .btn {
+  position: relative;
+  z-index: 3;
+}
+</style>
+
+{% assign section_link = section.settings.section_link %}
+
+{% if section_link != blank %}
+  <a href="{{ section_link }}" class="hero-section-link-wrapper">
+{% endif %}
+
+<div class="hero-section">
+  {% if section.settings.desktop_image != blank %}
+    <img
+      src="{{ section.settings.desktop_image | image_url }}"
+      alt="Hero Image Desktop"
+      class="hero-section__image hero-section__image--desktop">
+  {% endif %}
+  {% if section.settings.mobile_image != blank %}
+    <img
+      src="{{ section.settings.mobile_image | image_url }}"
+      alt="Hero Image Mobile"
+      class="hero-section__image hero-section__image--mobile">
+  {% endif %}
+
+  <div class="hero-section__content {{ section.settings.content_alignment }}">
+    {% if section.settings.heading != blank %}
+      <h1>{{ section.settings.heading }}</h1>
+    {% endif %}
+    {% if section.settings.subheading != blank %}
+      <p>{{ section.settings.subheading }}</p>
+    {% endif %}
+    {% if section.settings.button_text != blank and section.settings.button_link != blank %}
+      <a href="{{ section.settings.button_link }}" class="btn" onclick="event.stopPropagation();">{{ section.settings.button_text }}</a>
+    {% endif %}
+  </div>
+</div>
+
+{% if section_link != blank %}
+  </a>
+{% endif %}
