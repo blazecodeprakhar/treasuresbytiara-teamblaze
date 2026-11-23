@@ -672,12 +672,11 @@
         "section_width": "page-width",
         "section_height": "",
         "color_scheme": "scheme-1",
-        "background_media": "image",
+        "background_media": "none",
         "video_position": "cover",
-        "background_image": "shopify://shop_images/A_Cream_to_nourish_and_8.png",
         "background_image_position": "cover",
-        "padding-block-start": 64,
-        "padding-block-end": 12
+        "padding-block-start": 56,
+        "padding-block-end": 8
       }
     }
   },
