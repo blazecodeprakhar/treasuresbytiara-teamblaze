@@ -22,7 +22,7 @@
 
   assign hero_eyebrow = s.hero_eyebrow | default: 'Our Story'
   assign hero_heading = s.hero_heading | default: 'Treasures Crafted for the Story You Tell'
-  assign hero_subtitle = s.hero_subtitle | default: 'Designer treasures you’d find in an enchanted chest — fairly priced for the girl who buys it for herself.'
+  assign hero_subtitle = s.hero_subtitle | default: 'Designer treasures you’d find in an enchanted chest, fairly priced for the girl who buys it for herself.'
   assign crest_caption = s.crest_caption | default: 'Jewellery · Corsets · Gloves · Bespoke'
   assign hero_primary_label = s.hero_primary_label | default: 'Explore Collections'
   assign hero_primary_link = s.hero_primary_link | default: '/collections/all-products'
@@ -81,8 +81,8 @@
   assign events_tags_raw = s.events_tags | default: 'Trunk Shows, Try-On Taverns, Private Previews, Multi-Designer Exhibitions'
   assign event_tags = events_tags_raw | split: ','
   assign events_img = s.events_image
-  if is_default_fallback and events_img == blank
-    assign events_img = images['Untitled_design_49.png']
+  if events_img == blank
+    assign events_img = collections['earings-1'].featured_image | default: collections['earings-1'].products.first.featured_image | default: collections['necklaces'].featured_image | default: collections['necklaces'].products.first.featured_image | default: collections['all-products'].products.first.featured_image | default: images['Fashion_Gloves_2.png']
   endif
 
   assign faq_eyebrow = s.faq_eyebrow | default: 'Helpful Answers'
@@ -244,7 +244,7 @@
               What started as a love for character-filled keepsakes grew into a complete universe spanning sculpted necklaces, statement earrings, stacking rings, delicate bracelets, tailored cufflinks, structured corsets, and romantic evening gloves.
             </p>
             <p>
-              Every piece is chosen and finished so you never have to wait for someone else to gift you magic — you can step into our Mumbai studio or open your own enchanted chest any day of the week.
+              Every piece is chosen and finished so you never have to wait for someone else to gift you magic. You can step into our Mumbai studio or open your own enchanted chest any day of the week.
             </p>
           {%- endif -%}
         </div>
@@ -583,7 +583,7 @@
             {{ s.events_text }}
           {%- else -%}
             <p>
-              Treasures by Tiara comes to life through curated events across the country — from exclusive trunk shows to immersive experiences. Each showcase is a chance to explore the collection in person, try on signature pieces, and discover the stories behind them.
+              Treasures by Tiara comes to life through curated events across the country, from exclusive trunk shows to immersive experiences. Each showcase is a chance to explore the collection in person, try on signature pieces, and discover the stories behind them.
             </p>
             <p>
               Whether you’re stepping into a Try-On Tavern, a private preview, or a multi-designer exhibition, our events are designed for you to arrive as you are and leave with something unforgettable.

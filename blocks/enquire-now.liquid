@@ -20,7 +20,7 @@
   if current_variant != blank and current_variant.title != 'Default Title'
     assign default_wa_text = default_wa_text | append: ' (' | append: current_variant.title | append: ')'
   endif
-  assign default_wa_text = default_wa_text | append: ' — ' | append: product_full_url
+  assign default_wa_text = default_wa_text | append: ' | ' | append: product_full_url
   assign wa_encoded = default_wa_text | url_encode
   assign wa_href = 'https://wa.me/' | append: wa_digits | append: '?text=' | append: wa_encoded
 
@@ -280,7 +280,7 @@
           'Hi Treasures by Tiara! I would like to enquire about ' +
           productTitle +
           (variantTitle ? ' (' + variantTitle + ')' : '') +
-          ' — ' +
+          ' | ' +
           activeUrl;
         const href = 'https://wa.me/' + waDigits + '?text=' + encodeURIComponent(msg);
         waLinks.forEach((link) => link.setAttribute('href', href));
