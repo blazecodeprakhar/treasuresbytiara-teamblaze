@@ -306,26 +306,10 @@
                     "padding-inline-end": 0
                   },
                   "blocks": {}
-                },
-                "about_explore_btn": {
-                  "type": "button",
-                  "name": "About Us Button",
-                  "settings": {
-                    "label": "About Us",
-                    "link": "/pages/about",
-                    "open_in_new_tab": false,
-                    "style_class": "button-secondary",
-                    "width": "fit-content",
-                    "custom_width": 100,
-                    "width_mobile": "fit-content",
-                    "custom_width_mobile": 100
-                  },
-                  "blocks": {}
                 }
               },
               "block_order": [
-                "menu_WyxacW",
-                "about_explore_btn"
+                "menu_WyxacW"
               ]
             },
             "group_kwp6Jp": {
