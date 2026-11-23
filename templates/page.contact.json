@@ -69,6 +69,10 @@
         "title",
         "content"
       ],
+      "custom_css": [
+        "h1 { font-family: 'Cormorant Garamond', Georgia, serif !important; font-weight: 600; letter-spacing: 0.02em; }",
+        ".text-block p { font-family: 'Plus Jakarta Sans', var(--font-body--family), sans-serif; opacity: 0.8; }"
+      ],
       "settings": {
         "content_direction": "column",
         "gap": 16,
@@ -207,6 +211,10 @@
         "form_heading",
         "form_subtext",
         "contact_form_UwiCkQ"
+      ],
+      "custom_css": [
+        "h2 { font-family: 'Cormorant Garamond', Georgia, serif !important; font-weight: 600; letter-spacing: 0.015em; }",
+        ".text-block p { font-family: 'Plus Jakarta Sans', var(--font-body--family), sans-serif; opacity: 0.78; }"
       ],
       "name": "t:names.contact_form",
       "settings": {
