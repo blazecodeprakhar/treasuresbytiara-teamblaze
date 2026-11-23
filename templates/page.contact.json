@@ -151,7 +151,7 @@
           "settings": {
             "text": "<p>Share your inquiry, bespoke request, or order number and we will get back to you shortly.</p>",
             "width": "100%",
-            "max_width": "normal",
+            "max_width": "none",
             "alignment": "center",
             "type_preset": "paragraph",
             "font": "var(--font-body--family)",
@@ -175,7 +175,7 @@
           "type": "contact-form",
           "settings": {
             "width": "custom",
-            "custom_width": 65,
+            "custom_width": 72,
             "width_mobile": "custom",
             "custom_width_mobile": 100,
             "inherit_color_scheme": true,
@@ -190,7 +190,7 @@
               "type": "contact-form-submit-button",
               "static": true,
               "settings": {
-                "label": "Submit",
+                "label": "Send Message",
                 "style_class": "button",
                 "width": "fit-content",
                 "custom_width": 100,
