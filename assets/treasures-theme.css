@@ -1,0 +1,227 @@
+/* Treasures by Tiara — Global Luxury Typography, Curved Box Polish & Responsive Refinements */
+
+:root {
+  --tiara-serif: 'Cormorant Garamond', Georgia, serif;
+  --tiara-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --tiara-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --tiara-card-radius: 18px;
+}
+
+body {
+  font-family: var(--tiara-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Luxury editorial headings across the entire website */
+h1,
+h2,
+h3,
+.h1,
+.h2,
+.h3,
+.cart-drawer__heading,
+.predictive-search-results__heading,
+.collection-list__heading {
+  font-family: var(--tiara-serif) !important;
+  letter-spacing: 0.015em;
+}
+
+h4,
+.h4,
+.menu-drawer__menu-item--mainlist,
+.product-title-block,
+.collection-card__title {
+  font-family: var(--tiara-serif);
+}
+
+/* Header top-level navigation polish */
+.header .menu-list--mobile .menu-list__item,
+.menu-drawer__menu-item--mainlist {
+  font-family: var(--tiara-serif);
+  font-weight: 600;
+  letter-spacing: 0.07em;
+}
+
+.header .menu-list__submenu,
+.header .overflow-menu::after {
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+/* Cohesive curved pill buttons sitewide */
+.button:not(.button-unstyled, .header__icon, .slideshow-control, .carousel-arrow, .menu-drawer__close-button, .cart-drawer__close-button, .close-button, .quantity-minus, .quantity-plus),
+.button-secondary:not(.button-unstyled, .header__icon),
+button.shopify-payment-button__button--unbranded {
+  border-radius: 999px !important;
+  font-family: var(--tiara-sans);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  transition:
+    transform 0.25s var(--tiara-ease),
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.button:not(.button-secondary, .button-unstyled, .header__icon, .slideshow-control, .carousel-arrow, .menu-drawer__close-button, .cart-drawer__close-button, .close-button, .quantity-minus, .quantity-plus) {
+  border: 1.5px solid var(--color-primary);
+  box-shadow: 0 6px 18px rgb(from var(--color-primary) r g b / 0.16);
+}
+
+.button-secondary:not(.button-unstyled, .header__icon) {
+  border: 1.5px solid rgb(from var(--color-primary) r g b / 0.45);
+}
+
+@media (hover: hover) {
+  .button:not(.button-unstyled, .header__icon, .slideshow-control, .carousel-arrow, .menu-drawer__close-button, .cart-drawer__close-button, .close-button, .quantity-minus, .quantity-plus, [aria-disabled='true'], :disabled):hover,
+  .button-secondary:not(.button-unstyled, .header__icon, [aria-disabled='true'], :disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgb(from var(--color-primary) r g b / 0.2);
+  }
+}
+
+/* Rounded product & collection cards with smooth animation */
+.product-card__content .card-gallery,
+.collection-card__image,
+.resource-card__media,
+.predictive-search-results__card .card-gallery {
+  border-radius: var(--tiara-card-radius);
+  overflow: hidden;
+  border: 1px solid rgb(from var(--color-primary) r g b / 0.16);
+  background-color: var(--color-input-background);
+  transition:
+    transform 0.35s var(--tiara-ease),
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.product-card__content .card-gallery img,
+.collection-card__image img,
+.resource-card__media img {
+  transition: transform 0.55s var(--tiara-ease);
+}
+
+@media (hover: hover) {
+  .product-card:hover .card-gallery,
+  .collection-card:hover .collection-card__image,
+  .resource-card:hover .resource-card__media {
+    transform: translateY(-3px);
+    border-color: rgb(from var(--color-primary) r g b / 0.42);
+    box-shadow: 0 16px 32px rgb(from var(--color-primary) r g b / 0.11);
+  }
+
+  .product-card:hover .card-gallery img,
+  .collection-card:hover .collection-card__image img,
+  .resource-card:hover .resource-card__media img {
+    transform: scale(1.035);
+  }
+}
+
+.collection-card__content .collection-title,
+.collection-card h5,
+.collection-card .h5 {
+  font-family: var(--tiara-serif) !important;
+  font-weight: 600;
+  font-size: 1.15rem;
+  letter-spacing: 0.02em;
+  border-radius: 999px !important;
+}
+
+/* Badges, swatches, variant pills, quantity selectors & form inputs */
+.product-badges__badge {
+  border-radius: 999px !important;
+  letter-spacing: 0.08em;
+  font-family: var(--tiara-sans);
+}
+
+input:not([type='checkbox'], [type='radio']),
+textarea,
+select,
+.field__input,
+.search-input,
+.variant-option--dropdown select {
+  border-radius: 14px !important;
+  font-family: var(--tiara-sans);
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background-color 0.25s ease;
+}
+
+input:not([type='checkbox'], [type='radio']):focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgb(from var(--color-primary) r g b / 0.14);
+}
+
+.quantity-selector {
+  border-radius: 999px !important;
+  border: 1px solid rgb(from var(--color-primary) r g b / 0.3);
+  overflow: hidden;
+  background-color: var(--color-input-background);
+}
+
+.variant-option__button-label {
+  border-radius: 999px !important;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+/* Rounded drawers, dialogs, cart summary & policy/page boxes */
+@media screen and (width >= 750px) {
+  .dialog-modal,
+  .cart-drawer__dialog,
+  .search-modal__content {
+    border-radius: 22px !important;
+    border: 1px solid rgb(from var(--color-primary) r g b / 0.22);
+  }
+}
+
+.cart__summary-container,
+.cart-summary,
+.facets__panel,
+.facets-drawer,
+.product-information__media .slideshow-slide,
+.product-media-container img {
+  border-radius: 18px;
+}
+
+.product-information accordion-custom details,
+.facets__item {
+  border-color: rgb(from var(--color-primary) r g b / 0.2);
+}
+
+.shopify-policy__container,
+main .page-content-wrapper {
+  font-family: var(--tiara-sans);
+  line-height: 1.75;
+}
+
+.shopify-policy__title h1 {
+  font-family: var(--tiara-serif) !important;
+  color: var(--color-foreground-heading);
+}
+
+/* Slideshow round navigation buttons */
+.slideshow-control--shape-square {
+  border-radius: 50% !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-card__content .card-gallery,
+  .product-card__content .card-gallery img,
+  .collection-card__image,
+  .collection-card__image img,
+  .button,
+  .button-secondary,
+  .menu-list__link-title::after {
+    transition: none;
+  }
+}

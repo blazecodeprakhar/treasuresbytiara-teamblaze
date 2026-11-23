@@ -1233,9 +1233,9 @@ button.shopify-payment-button__button--unbranded {
 }
 
 .button:not(.button-secondary, .button-unstyled) {
-    color: black;
-  background-color: transparent;
-  border: 3px solid #A57B02;
+  color: var(--button-color);
+  background-color: var(--button-background-color);
+  box-shadow: inset 0 0 0 var(--button-border-width) var(--button-border-color);
 }
 
 .button-secondary {

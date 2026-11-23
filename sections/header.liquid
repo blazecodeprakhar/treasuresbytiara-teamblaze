@@ -383,6 +383,13 @@
     background-color: var(--header-bg-color, var(--color-background));
   }
 
+  .header:not([transparent]) .header__row,
+  .header[transparent][data-sticky-state='active'] .header__row,
+  .header[transparent] .header__row:hover {
+    box-shadow: 0 6px 24px rgb(from var(--color-shadow) r g b / 0.05);
+    border-bottom: 1px solid rgb(from var(--color-primary) r g b / 0.16);
+  }
+
   .header__row--top:not(.divider--page-width),
   .header__row--top.divider--page-width .header__columns,
   .header__row--bottom {

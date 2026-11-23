@@ -47,26 +47,30 @@
 
 <style>
   .pirate-map {
-   position: relative;
+    position: relative;
     width: 100%;
-    padding: 1rem;
+    padding: clamp(1rem, 3vw, 2rem);
+    padding-bottom: clamp(2.5rem, 5vw, 4.5rem);
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: stretch;
-    height: 100%;
+    gap: 1.25rem;
     background-image: url(https://cdn.shopify.com/s/files/1/0722/0799/0807/files/A_Cream_to_nourish_and_9.png?v=1752661818);
     background-repeat: no-repeat;
-    padding-bottom: 120px;
+    background-size: cover;
+    overflow-x: clip;
   }
-.map-container {
-  position: relative;
-  flex: 0 0 40%;
-  min-width: 300px;
-  display: flex;
-  flex-direction: column;
-  height: auto; /* ← REMOVE any height constraints */
-}
+  .map-container {
+    position: relative;
+    flex: 0 0 40%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid rgb(from var(--color-primary) r g b / 0.24);
+  }
   .map-container img {
     width: 100%;
     height: 100%;
@@ -89,16 +93,17 @@
   .map-marker span {
     display: block;
     font-size: 12px;
-    color: #7b1e1e;
-    font-weight: bold;
-    text-shadow: 0 0 2px #fff;
+    font-family: var(--font-heading--family, 'Cormorant Garamond', Georgia, serif);
+    color: var(--color-foreground-heading);
+    font-weight: 700;
+    text-shadow: 0 0 4px #fff;
   }
   .captains-log {
-    flex: 0 0 60%;
-    min-width: 300px;
+    flex: 1 1 0;
+    min-width: 0;
     display: flex;
     flex-direction: column;
-    padding: 1rem;
+    padding: 0.5rem;
     box-sizing: border-box;
   }
   .captains-log h3 {
@@ -112,34 +117,38 @@
     overflow-x: auto;
     overflow-y: hidden;
     flex-grow: 1;
+    align-items: center;
   }
   .captains-log video {
-    max-width: 300px;
+    max-width: 280px;
     flex-shrink: 0;
+    border: 1.5px solid rgb(from var(--color-primary) r g b / 0.35);
+    border-radius: 18px;
+    padding: 4px;
+    background-color: var(--color-input-background);
+    box-shadow: 0 10px 24px rgb(from var(--color-shadow) r g b / 0.08);
   }
-  /* Hide scrollbar for video container */
-#videoContainer::-webkit-scrollbar {
-  display: none;
-}
-#videoContainer {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
+  #videoContainer::-webkit-scrollbar {
+    display: none;
+  }
+  #videoContainer {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
   @media (max-width: 767px) {
-  .pirate-map {
-    flex-direction: column;
+    .pirate-map {
+      flex-direction: column;
+    }
+    .map-container,
+    .captains-log {
+      flex: 1 1 auto;
+      width: 100%;
+    }
+    .captains-log video {
+      flex: 0 0 72%;
+      max-width: 72%;
+    }
   }
-   .captains-log video {
-    flex: 0 0 50%;
-    max-width: 50%;
-  }
-}
-  .captains-log video {
-  border: 2px dotted #902e13;
-  border-radius: 8px;
-  padding: 4px;
-}
-
 </style>
 
 <div class="pirate-map" id="pirateMapSection">
