@@ -7,27 +7,30 @@
   endif
 %}
 
-<div
-  class="social-icons__icon-wrapper"
-  {{ block.shopify_attributes }}
->
-  <a
-    href="{{ block.settings.link }}"
-    target="_blank"
-    rel="noopener noreferrer"
+{% if block.settings.link != blank %}
+  <div
+    class="social-icons__icon-wrapper"
+    {{ block.shopify_attributes }}
   >
-    <span class="social-icons__icon-label">{{ platform | capitalize }}</span>
-    <svg
-      class="social-icons__icon"
-      aria-hidden="true"
-      focusable="false"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 20 20"
+    <a
+      href="{{ block.settings.link }}"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="{{ platform | capitalize }}"
     >
-      {%- render 'icon', icon: platform -%}
-    </svg>
-  </a>
-</div>
+      <span class="social-icons__icon-label">{{ platform | capitalize }}</span>
+      <svg
+        class="social-icons__icon"
+        aria-hidden="true"
+        focusable="false"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 20 20"
+      >
+        {%- render 'icon', icon: platform -%}
+      </svg>
+    </a>
+  </div>
+{% endif %}
 
 {% stylesheet %}
   .social-icons__icon-wrapper {

@@ -1,9 +1,16 @@
-
+{% # theme-check-disable %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+>
+{% # theme-check-enable %}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <div
   class="
-    section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}
+    section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} site-footer
     {% if section.settings.section_height != "" %} {{ section.settings.section_height | prepend: "section--height-" }}{% endif %}
   "
 >
@@ -25,12 +32,326 @@
     "
     style="
       {% render 'layout-panel-style', settings: section.settings %}
-      {%  render 'spacing-style', settings: section.settings %}
+      {% render 'spacing-style', settings: section.settings %}
     "
   >
     {% content_for 'blocks' %}
   </div>
 </div>
+
+{% stylesheet %}
+  .site-footer {
+    --footer-serif: 'Cormorant Garamond', Georgia, serif;
+    --footer-sans: 'Plus Jakarta Sans', var(--font-body--family), sans-serif;
+    --footer-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+    position: relative;
+    font-family: var(--footer-sans);
+  }
+
+  .site-footer::before {
+    content: '';
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent 4%, #d6a86e 28%, var(--color-primary) 50%, #d6a86e 72%, transparent 96%);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .site-footer .background-image-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      var(--color-background) 0%,
+      rgb(from var(--color-background) r g b / 0.72) 26%,
+      rgb(from var(--color-background) r g b / 0.88) 100%
+    );
+    pointer-events: none;
+  }
+
+  .site-footer .section-content-wrapper {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Responsive 4-column editorial grid for the main footer group */
+  .site-footer .section-content-wrapper > .group-block:first-child > .group-block-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 28px;
+    width: 100%;
+    align-items: start;
+  }
+
+  .site-footer .section-content-wrapper > .group-block:first-child > .group-block-content > .group-block {
+    width: 100%;
+    min-width: 0;
+  }
+
+  @media screen and (width >= 750px) {
+    .site-footer .section-content-wrapper > .group-block:first-child > .group-block-content {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 32px 28px;
+    }
+  }
+
+  @media screen and (width >= 1024px) {
+    .site-footer .section-content-wrapper > .group-block:first-child > .group-block-content {
+      grid-template-columns: 1.35fr 0.75fr 0.75fr 1.2fr;
+      gap: 36px;
+    }
+  }
+
+  .site-footer h2,
+  .site-footer h3,
+  .site-footer h4,
+  .site-footer .menu__heading {
+    font-family: var(--footer-serif) !important;
+    font-weight: 600;
+    letter-spacing: 0.015em;
+    color: var(--color-foreground-heading);
+    text-transform: none;
+  }
+
+  .site-footer h3,
+  .site-footer .menu__heading {
+    font-size: 1.45rem;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+
+  .site-footer h4 {
+    font-size: 1.15rem;
+    line-height: 1.25;
+  }
+
+  .site-footer p,
+  .site-footer li,
+  .site-footer a {
+    font-family: var(--footer-sans);
+  }
+
+  .site-footer .menu__item a {
+    display: inline-block;
+    color: rgb(from var(--color-foreground) r g b / 0.84);
+    text-decoration: none;
+    font-size: 0.925rem;
+    line-height: 1.5;
+    transition:
+      color 0.25s ease,
+      transform 0.25s var(--footer-ease);
+  }
+
+  @media (hover: hover) {
+    .site-footer .menu__item a:hover {
+      color: var(--color-primary);
+      transform: translateX(4px);
+    }
+  }
+
+  /* Concierge curved glass card */
+  .site-footer .group-block[style*='--border-style: solid'] {
+    position: relative;
+    overflow: hidden;
+    background-color: rgb(from var(--color-input-background) r g b / 0.88);
+    backdrop-filter: blur(8px);
+    border-color: rgb(from var(--color-primary) r g b / 0.24) !important;
+    box-shadow: 0 14px 36px rgb(from var(--color-shadow) r g b / 0.06);
+    transition:
+      transform 0.35s var(--footer-ease),
+      border-color 0.35s var(--footer-ease),
+      box-shadow 0.35s var(--footer-ease);
+  }
+
+  .site-footer .group-block[style*='--border-style: solid']::before {
+    content: '';
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent 8%, #d6a86e 32%, var(--color-primary) 50%, #d6a86e 68%, transparent 92%);
+  }
+
+  @media (hover: hover) {
+    .site-footer .group-block[style*='--border-style: solid']:hover {
+      transform: translateY(-4px);
+      border-color: rgb(from var(--color-primary) r g b / 0.48) !important;
+      box-shadow: 0 20px 44px rgb(from var(--color-primary) r g b / 0.12);
+    }
+  }
+
+  .site-footer .group-block[style*='--border-style: solid'] p {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: rgb(from var(--color-foreground) r g b / 0.85);
+    margin: 0 0 8px;
+  }
+
+  .site-footer .group-block[style*='--border-style: solid'] p:last-child {
+    margin-bottom: 0;
+  }
+
+  .site-footer .group-block[style*='--border-style: solid'] p a {
+    color: var(--color-foreground);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid rgb(from var(--color-primary) r g b / 0.35);
+    transition:
+      color 0.25s ease,
+      border-color 0.25s ease;
+  }
+
+  .site-footer .group-block[style*='--border-style: solid'] p a:hover {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+  }
+
+  /* Pill CTA buttons inside footer */
+  .site-footer .button:not(.button-unstyled),
+  .site-footer .button-secondary {
+    border-radius: 999px !important;
+    min-height: 40px;
+    padding: 9px 20px;
+    font-family: var(--footer-sans);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition:
+      transform 0.25s var(--footer-ease),
+      background-color 0.25s ease,
+      color 0.25s ease,
+      border-color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+
+  .site-footer .button:not(.button-secondary, .button-unstyled) {
+    background-color: var(--color-primary);
+    color: var(--color-primary-button-text);
+    border: 1.5px solid var(--color-primary);
+    box-shadow: 0 6px 18px rgb(from var(--color-primary) r g b / 0.22);
+  }
+
+  .site-footer .button:not(.button-secondary, .button-unstyled):hover {
+    transform: translateY(-2px);
+    background-color: var(--color-primary-hover);
+    border-color: var(--color-primary-hover);
+    color: var(--color-primary-button-hover-text);
+    box-shadow: 0 10px 24px rgb(from var(--color-shadow) r g b / 0.16);
+  }
+
+  .site-footer .button-secondary {
+    background-color: var(--color-input-background);
+    color: var(--color-foreground);
+    border: 1.5px solid rgb(from var(--color-primary) r g b / 0.48);
+    box-shadow: none;
+  }
+
+  .site-footer .button-secondary:hover {
+    transform: translateY(-2px);
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-primary-button-text);
+  }
+
+  /* Curved newsletter pill bar inside footer */
+  .site-footer .email-signup__input-group {
+    display: flex !important;
+    align-items: center;
+    gap: 6px;
+    border-radius: 999px !important;
+    background-color: var(--color-input-background);
+    border: 1.5px solid rgb(from var(--color-primary) r g b / 0.28) !important;
+    padding: 4px;
+    box-shadow: 0 6px 18px rgb(from var(--color-shadow) r g b / 0.04);
+    transition:
+      border-color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+
+  .site-footer .email-signup__input-group:focus-within {
+    border-color: var(--color-primary) !important;
+    box-shadow: 0 0 0 4px rgb(from var(--color-primary) r g b / 0.12);
+  }
+
+  .site-footer .email-signup__input {
+    flex: 1;
+    min-width: 0;
+    border: none !important;
+    background: transparent !important;
+    padding: 10px 16px;
+    font-family: var(--footer-sans);
+    font-size: 0.875rem;
+  }
+
+  .site-footer .email-signup__input:focus {
+    outline: none;
+  }
+
+  .site-footer .email-signup__button {
+    width: auto !important;
+    border-radius: 999px !important;
+    min-height: 38px;
+    padding: 8px 20px !important;
+    margin: 0 !important;
+    flex-shrink: 0;
+  }
+
+  /* Footer utilities, policies, and circular social medallions */
+  .site-footer .footer-utilities {
+    border-top-color: rgb(from var(--color-primary) r g b / 0.22);
+    color: rgb(from var(--color-foreground) r g b / 0.72);
+    font-size: 0.8125rem;
+  }
+
+  .site-footer .footer-utilities a {
+    color: rgb(from var(--color-foreground) r g b / 0.76);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .site-footer .footer-utilities a:hover {
+    color: var(--color-primary);
+  }
+
+  .site-footer .social-icons__icon-wrapper {
+    height: auto;
+    width: auto !important;
+  }
+
+  .site-footer .social-icons__icon-wrapper a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid rgb(from var(--color-primary) r g b / 0.3);
+    background-color: rgb(from var(--color-input-background) r g b / 0.85);
+    color: var(--color-foreground);
+    transition:
+      transform 0.25s var(--footer-ease),
+      background-color 0.25s ease,
+      color 0.25s ease,
+      border-color 0.25s ease;
+  }
+
+  .site-footer .social-icons__icon-wrapper a:hover {
+    transform: translateY(-2px);
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-primary-button-text);
+  }
+
+  .site-footer .social-icons__icon {
+    width: 17px;
+    height: 17px;
+  }
+{% endstylesheet %}
 
 {% schema %}
 {

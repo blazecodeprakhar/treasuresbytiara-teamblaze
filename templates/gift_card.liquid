@@ -117,7 +117,16 @@
 
     <main class="gift-card__main">
       <div class="gift-card__image-wrapper">
-        {%- if settings.logo != blank -%}
+        {%- if settings.use_theme_asset_logo -%}
+          <img
+            class="gift-card__image gift-card__image-border"
+            src="{{ 'logo.png' | asset_url }}"
+            alt="{{ shop.name | escape }}"
+            width="324"
+            height="132"
+            loading="eager"
+          >
+        {%- elsif settings.logo != blank -%}
           {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
           {{
             settings.logo

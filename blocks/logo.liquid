@@ -1,14 +1,34 @@
-
-
 {% liquid
+  assign use_asset_logo = false
+  if settings.use_theme_asset_logo
+    assign use_asset_logo = true
+  endif
+
   assign image = settings.logo
 
   if block.settings.inverse and settings.logo_inverse
     assign image = settings.logo_inverse
   endif
+
+  if image == blank
+    assign use_asset_logo = true
+  endif
 %}
 
-{%- if image -%}
+{%- if use_asset_logo -%}
+  {% capture logo_image %}
+    <img
+      src="{{ 'logo.png' | asset_url }}"
+      alt="{{ shop.name | escape }}"
+      width="900"
+      height="367"
+      class="logo-block__image"
+      loading="lazy"
+      decoding="async"
+    >
+  {% endcapture %}
+  {% assign logo_aspect_ratio = 900.0 | divided_by: 367.0 %}
+{%- elsif image -%}
   {% capture logo_image %}
     {{-
       image
@@ -22,6 +42,7 @@
         sizes: '(min-width: 750px) calc(var(--logo-width)), 100vw'
     -}}
   {% endcapture %}
+  {% assign logo_aspect_ratio = image.width | times: 1.00 | divided_by: image.height %}
 {%- endif -%}
 
 <div
@@ -33,8 +54,8 @@
     {% if block.settings.unit == 'percent' %}
       --logo-width: {{ block.settings.percent_width }}%;
     {% else %}
-      {% if image %}
-        --logo-width: {{ image.width | times: 1.00 | divided_by: image.height | times: block.settings.pixel_height }}px;
+      {% if logo_image %}
+        --logo-width: {{ logo_aspect_ratio | times: block.settings.pixel_height | round: 1 }}px;
       {% else %}
         --logo-width: {{ shop.name.size }}ch;
         --logo-height: {{ block.settings.pixel_height }}px;
@@ -46,11 +67,11 @@
         --logo-width-mobile: {{ block.settings.percent_width_mobile }}%;
         --logo-height-mobile: auto;
       {% else %}
-        {% if image %}
-          --logo-width-mobile: {{ image.width | times: 1.00 | divided_by: image.height | times: block.settings.pixel_height_mobile }}px;
-          {% else %}
-            --logo-width-mobile: {{ shop.name.size }}ch;
-            --logo-height-mobile: {{ block.settings.pixel_height_mobile }}px;
+        {% if logo_image %}
+          --logo-width-mobile: {{ logo_aspect_ratio | times: block.settings.pixel_height_mobile | round: 1 }}px;
+        {% else %}
+          --logo-width-mobile: {{ shop.name.size }}ch;
+          --logo-height-mobile: {{ block.settings.pixel_height_mobile }}px;
         {% endif %}
       {% endif %}
     {% endif %}
@@ -96,6 +117,7 @@
   .logo-block__image {
     object-fit: contain;
     width: 100%;
+    height: auto;
   }
 {% endstylesheet %}
 
@@ -134,7 +156,7 @@
         }
       ],
       "default": "heading",
-      "visible_if": "{{ settings.logo == blank and settings.logo_inverse == blank or block.settings.inverse == false }}"
+      "visible_if": "{{ settings.use_theme_asset_logo == false and settings.logo == blank }}"
     },
     {
       "type": "paragraph",

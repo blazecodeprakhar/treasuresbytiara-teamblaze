@@ -11,6 +11,13 @@
     "name": "t:names.logo_and_favicon",
     "settings": [
       {
+        "type": "checkbox",
+        "id": "use_theme_asset_logo",
+        "label": "Use theme asset logo (assets/logo.png)",
+        "default": true,
+        "info": "Displays the optimized assets/logo.png across the header, footer, gift card, and password pages. Uncheck to use custom uploaded images below."
+      },
+      {
         "type": "image_picker",
         "id": "logo",
         "label": "t:settings.default_logo"
