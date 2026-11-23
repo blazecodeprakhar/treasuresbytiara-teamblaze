@@ -1,0 +1,19 @@
+{%- doc -%}
+  Resolves the first published page URL from a comma-separated list of handles,
+  falling back to the supplied URL when none match yet.
+
+  @param {string} handles - Comma-separated page handles to check in priority order.
+  @param {string} fallback - Fallback URL when no matching page handle exists.
+{%- enddoc -%}
+{%- liquid
+  assign resolved_url = fallback
+  assign handle_list = handles | split: ','
+  for handle in handle_list
+    assign trimmed = handle | strip
+    if pages[trimmed] != blank
+      assign resolved_url = pages[trimmed].url
+      break
+    endif
+  endfor
+  echo resolved_url
+-%}

@@ -5,18 +5,29 @@
   style="{% render 'spacing-style', settings: block.settings %} --border-width: {{ block.settings.divider_thickness }}px;"
   {{ block.shopify_attributes }}
 >
+  {%- liquid
+    capture about_url
+      render 'resolve-page-url', handles: 'about,about-us,our-story', fallback: '/pages/about'
+    endcapture
+    assign about_url = about_url | strip
+
+    capture contact_url
+      render 'resolve-page-url', handles: 'contact,contact-us', fallback: '/pages/contact'
+    endcapture
+    assign contact_url = contact_url | strip
+  -%}
   <div class="footer-utilities__group footer-utilities__group--left">
     {% content_for 'block', type: '_footer-copyright', id: 'copyright' %}
     {%- if block.settings.show_about_link or block.settings.show_contact_link -%}
       <ul class="footer-utilities__quick-links list-unstyled" aria-label="Footer quick links">
         {%- if block.settings.show_about_link -%}
           <li>
-            <a href="/pages/about" class="footer-utilities__text">About Us</a>
+            <a href="{{ about_url }}" class="footer-utilities__text">About Us</a>
           </li>
         {%- endif -%}
         {%- if block.settings.show_contact_link -%}
           <li>
-            <a href="/pages/contact" class="footer-utilities__text">Contact Us</a>
+            <a href="{{ contact_url }}" class="footer-utilities__text">Contact Us</a>
           </li>
         {%- endif -%}
       </ul>

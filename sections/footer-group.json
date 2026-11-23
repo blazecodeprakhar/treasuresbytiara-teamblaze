@@ -175,9 +175,9 @@
                 },
                 "about_story_btn": {
                   "type": "button",
-                  "name": "About Us Link",
+                  "name": "About Us Button",
                   "settings": {
-                    "label": "Our Story — About Us",
+                    "label": "About Us",
                     "link": "/pages/about",
                     "open_in_new_tab": false,
                     "style_class": "button-secondary",
