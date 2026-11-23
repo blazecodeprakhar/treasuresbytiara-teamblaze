@@ -1,365 +1,945 @@
-<style>
-
-.contact-info-wrapper{
-max-width:1200px;
-margin:60px auto;
-padding:0 20px;
-font-family:inherit;
-}
-
-.contact-box{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:25px;
-}
-
-.info-card{
-background:#FFFDF8;
-border:1px solid #D9B24C;
-border-radius:18px;
-padding:35px;
-text-align:center;
-box-shadow:0 8px 25px rgba(0,0,0,.08);
-transition:.35s ease;
-}
-
-.info-card:hover{
-transform:translateY(-8px);
-box-shadow:0 20px 40px rgba(0,0,0,.15);
-}
-
-.info-icon{
-width:72px;
-height:72px;
-background:#b8860b;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-margin:auto auto 20px;
-font-size:34px;
-color:#fff;
-}
-
-.info-title{
-font-size:26px;
-font-weight:700;
-margin-bottom:12px;
-color:#A17400;
-}
-
-.info-text{
-font-size:17px;
-line-height:30px;
-color:#555;
-}
-
-.info-text a{
-color:#555;
-text-decoration:none;
-}
-
-.info-text a:hover{
-color:#b8860b;
-}
-
-.support-box{
-margin-top:50px;
-background:#FFF8EC;
-border:1px solid #E6C772;
-border-radius:20px;
-padding:45px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:30px;
-box-shadow:0 10px 30px rgba(0,0,0,.05);
-}
-
-.support-content h2{
-font-size:36px;
-margin-bottom:10px;
-color:#A17400;
-}
-
-.support-content p{
-font-size:18px;
-line-height:30px;
-color:#666;
-margin:0;
-}
-
-.buttons{
-display:flex;
-gap:15px;
-flex-wrap:wrap;
-}
-
-.buttons a{
-display:inline-block;
-padding:15px 30px;
-border-radius:50px;
-font-size:16px;
-font-weight:600;
-text-decoration:none;
-transition:.3s;
-}
-
-.whatsapp{
-background:#25D366;
-color:#fff;
-}
-
-.call{
-background:#B8860B;
-color:#fff;
-}
-
-.email{
-background:#fff;
-color:#B8860B;
-border:2px solid #B8860B;
-}
-
-.buttons a:hover{
-transform:translateY(-4px);
-box-shadow:0 10px 20px rgba(0,0,0,.15);
-}
-
-
-
-
-
-
-/* Tablet */
-
-@media screen and (max-width:1024px){
-
-.contact-box{
-grid-template-columns:repeat(2,1fr);
-}
-
-.support-box{
-flex-direction:column;
-text-align:center;
-}
-
-.buttons{
-justify-content:center;
-}
-
-.support-content h2{
-font-size:32px;
-}
-
-}
-
-
-
-
-/* Mobile */
-
-@media screen and (max-width:767px){
-
-.contact-info-wrapper{
-padding:0 15px;
-margin:40px auto;
-}
-
-.contact-box{
-grid-template-columns:1fr;
-gap:18px;
-}
-
-.info-card{
-padding:28px 20px;
-}
-
-.info-icon{
-width:65px;
-height:65px;
-font-size:30px;
-}
-
-.info-title{
-font-size:24px;
-}
-
-.info-text{
-font-size:16px;
-line-height:28px;
-}
-
-.support-box{
-padding:30px 20px;
-flex-direction:column;
-text-align:center;
-}
-
-.support-content h2{
-font-size:28px;
-}
-
-.support-content p{
-font-size:16px;
-line-height:28px;
-}
-
-.buttons{
-width:100%;
-flex-direction:column;
-}
-
-.buttons a{
-width:100%;
-text-align:center;
-padding:16px;
-}
-
-}
-
-</style>
-
-<div class="contact-info-wrapper">
-
-<div class="contact-box">
-
-<div class="info-card">
-
-<div class="info-icon">
-📞
-</div>
-
-<div class="info-title">
-Call Us
-</div>
-
-<div class="info-text">
-
-<a href="tel:+919867559430">
-
-+91 98675 59430
-
-</a>
-
-</div>
-
-</div>
-
-
-
-
-
-<div class="info-card">
-
-<div class="info-icon">
-✉️
-</div>
-
-<div class="info-title">
-Email Us
-</div>
-
-<div class="info-text">
-
-<a href="mailto:treasuresbytiara@gmail.com">
-
-treasuresbytiara@gmail.com
-
-</a>
-
-</div>
-
-</div>
-
-
-
-
-
-<div class="info-card">
-
-<div class="info-icon">
-📍
-</div>
-
-<div class="info-title">
-Visit Us
-</div>
-
-<div class="info-text">
-
-Shop 008 New Poornima Apartment
-
-<br>
-
-S.R. Gopalrao Deshmukh Marg
-
-<br>
-
-Mumbai – 400026
-
-</div>
-
-</div>
-
-</div>
-
-
-
-
-
-
-
-<div class="support-box">
-
-<div class="support-content">
-
-<h2>Need Help?</h2>
-
-<p>
-
-Have questions about your order, jewellery, or shipping?
-
-<br>
-
-Our customer support team usually replies within <strong>24 Hours.</strong>
-
-</p>
-
-</div>
-
-<div class="buttons">
-
-<a href="https://wa.me/919867559430" target="_blank" class="whatsapp">
-
-💬 WhatsApp
-
-</a>
-
-<a href="tel:+919867559430" class="call">
-
-📞 Call Now
-
-</a>
-
-<a href="mailto:treasuresbytiara@gmail.com" class="email">
-
-✉️ Email Us
-
-</a>
-
-</div>
-
-</div>
-
-</div>
+{% liquid
+  assign phone_raw = section.settings.phone_number | strip
+  assign phone_href = phone_raw | remove: ' ' | remove: '-' | remove: '(' | remove: ')'
+
+  assign phone_secondary_raw = section.settings.phone_number_secondary | strip
+  assign phone_secondary_href = phone_secondary_raw | remove: ' ' | remove: '-' | remove: '(' | remove: ')'
+
+  assign email_clean = section.settings.email_address | strip
+  assign email_secondary_clean = section.settings.email_address_secondary | strip
+
+  assign whatsapp_raw = section.settings.whatsapp_number | strip
+  if whatsapp_raw == blank
+    assign whatsapp_raw = phone_raw
+  endif
+  assign whatsapp_digits = whatsapp_raw | remove: '+' | remove: ' ' | remove: '-' | remove: '(' | remove: ')'
+
+  assign address_line_1 = section.settings.address_line_1 | strip
+  assign address_line_2 = section.settings.address_line_2 | strip
+  assign address_line_3 = section.settings.address_line_3 | strip
+
+  assign full_address_query = address_line_1
+  if address_line_2 != blank
+    assign full_address_query = full_address_query | append: ', ' | append: address_line_2
+  endif
+  if address_line_3 != blank
+    assign full_address_query = full_address_query | append: ', ' | append: address_line_3
+  endif
+  assign full_address_query = full_address_query | strip | url_encode
+
+  assign resolved_map_url = section.settings.map_link_url
+  if resolved_map_url == blank and full_address_query != blank
+    assign resolved_map_url = 'https://www.google.com/maps/search/?api=1&query=' | append: full_address_query
+  endif
+
+  assign has_phone = false
+  if phone_raw != blank or phone_secondary_raw != blank
+    assign has_phone = true
+  endif
+
+  assign has_email = false
+  if email_clean != blank or email_secondary_clean != blank
+    assign has_email = true
+  endif
+
+  assign has_address = false
+  if address_line_1 != blank or address_line_2 != blank or address_line_3 != blank
+    assign has_address = true
+  endif
+
+  assign has_hours = false
+  if section.settings.hours_title != blank or section.settings.hours_text != blank
+    assign has_hours = true
+  endif
+
+  assign has_additional = false
+  if section.settings.additional_title != blank or section.settings.additional_text != blank
+    assign has_additional = true
+  endif
+%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  id="ContactInfo-{{ section.id }}"
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} contact-info-wrapper"
+>
+  <div
+    class="contact-info spacing-style"
+    style="{% render 'spacing-style', settings: section.settings %}"
+  >
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.subheading != blank -%}
+      <header class="contact-info__header">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="contact-info__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="contact-info__heading">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p class="contact-info__subheading">{{ section.settings.subheading | escape }}</p>
+        {%- endif -%}
+      </header>
+    {%- endif -%}
+
+    {%- if has_phone or has_email or has_address -%}
+      <div class="contact-info__grid">
+        {%- if has_phone -%}
+          <article class="contact-info__card">
+            <div class="contact-info__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+              </svg>
+            </div>
+            {%- if section.settings.phone_title != blank -%}
+              <h3 class="contact-info__card-title">{{ section.settings.phone_title | escape }}</h3>
+            {%- endif -%}
+            <div class="contact-info__card-body">
+              {%- if phone_raw != blank -%}
+                <a class="contact-info__link" href="tel:{{ phone_href }}">{{ phone_raw | escape }}</a>
+              {%- endif -%}
+              {%- if phone_secondary_raw != blank -%}
+                <a class="contact-info__link" href="tel:{{ phone_secondary_href }}">{{ phone_secondary_raw | escape }}</a>
+              {%- endif -%}
+              {%- if section.settings.phone_note != blank -%}
+                <p class="contact-info__note">{{ section.settings.phone_note | escape }}</p>
+              {%- endif -%}
+            </div>
+          </article>
+        {%- endif -%}
+
+        {%- if has_email -%}
+          <article class="contact-info__card">
+            <div class="contact-info__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="20" height="16" x="2" y="4" rx="1" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
+            </div>
+            {%- if section.settings.email_title != blank -%}
+              <h3 class="contact-info__card-title">{{ section.settings.email_title | escape }}</h3>
+            {%- endif -%}
+            <div class="contact-info__card-body">
+              {%- if email_clean != blank -%}
+                <a class="contact-info__link contact-info__link--email" href="mailto:{{ email_clean }}">{{ email_clean | escape }}</a>
+              {%- endif -%}
+              {%- if email_secondary_clean != blank -%}
+                <a class="contact-info__link contact-info__link--email" href="mailto:{{ email_secondary_clean }}">{{ email_secondary_clean | escape }}</a>
+              {%- endif -%}
+              {%- if section.settings.email_note != blank -%}
+                <p class="contact-info__note">{{ section.settings.email_note | escape }}</p>
+              {%- endif -%}
+            </div>
+          </article>
+        {%- endif -%}
+
+        {%- if has_address -%}
+          <article class="contact-info__card">
+            <div class="contact-info__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+            </div>
+            {%- if section.settings.address_title != blank -%}
+              <h3 class="contact-info__card-title">{{ section.settings.address_title | escape }}</h3>
+            {%- endif -%}
+            <div class="contact-info__card-body">
+              <address class="contact-info__address">
+                {%- if address_line_1 != blank -%}
+                  <span>{{ address_line_1 | escape }}</span>
+                {%- endif -%}
+                {%- if address_line_2 != blank -%}
+                  <span>{{ address_line_2 | escape }}</span>
+                {%- endif -%}
+                {%- if address_line_3 != blank -%}
+                  <span>{{ address_line_3 | escape }}</span>
+                {%- endif -%}
+              </address>
+              {%- if section.settings.address_note != blank -%}
+                <p class="contact-info__note">{{ section.settings.address_note | escape }}</p>
+              {%- endif -%}
+              {%- if resolved_map_url != blank and section.settings.map_link_label != blank -%}
+                <a
+                  class="contact-info__map-link"
+                  href="{{ resolved_map_url }}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {{ section.settings.map_link_label | escape }}
+                  <span aria-hidden="true">&rarr;</span>
+                </a>
+              {%- endif -%}
+            </div>
+          </article>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if has_hours or has_additional -%}
+      <div class="contact-info__details-grid{% unless has_hours and has_additional %} contact-info__details-grid--single{% endunless %}">
+        {%- if has_hours -%}
+          <div class="contact-info__detail-panel">
+            <div class="contact-info__detail-header">
+              <span class="contact-info__detail-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
+              </span>
+              {%- if section.settings.hours_title != blank -%}
+                <h3 class="contact-info__detail-title">{{ section.settings.hours_title | escape }}</h3>
+              {%- endif -%}
+            </div>
+            {%- if section.settings.hours_text != blank -%}
+              <div class="contact-info__detail-rte rte">{{ section.settings.hours_text }}</div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- if has_additional -%}
+          <div class="contact-info__detail-panel">
+            <div class="contact-info__detail-header">
+              <span class="contact-info__detail-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6 3h12l4 6-10 13L2 9Z" />
+                  <path d="M11 3 8 9l4 13 4-13-3-6" />
+                  <path d="M2 9h20" />
+                </svg>
+              </span>
+              {%- if section.settings.additional_title != blank -%}
+                <h3 class="contact-info__detail-title">{{ section.settings.additional_title | escape }}</h3>
+              {%- endif -%}
+            </div>
+            {%- if section.settings.additional_text != blank -%}
+              <div class="contact-info__detail-rte rte">{{ section.settings.additional_text }}</div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.show_support_box -%}
+      <div class="contact-info__support">
+        <div class="contact-info__support-content">
+          {%- if section.settings.support_heading != blank -%}
+            <h3 class="contact-info__support-heading">{{ section.settings.support_heading | escape }}</h3>
+          {%- endif -%}
+          {%- if section.settings.support_text != blank -%}
+            <div class="contact-info__support-text rte">{{ section.settings.support_text }}</div>
+          {%- endif -%}
+        </div>
+
+        <div class="contact-info__actions">
+          {%- if whatsapp_digits != blank and section.settings.whatsapp_label != blank -%}
+            <a
+              href="https://wa.me/{{ whatsapp_digits }}"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="contact-info__action contact-info__action--primary"
+            >
+              <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                {% render 'icon', icon: 'whatsapp' %}
+              </svg>
+              <span>{{ section.settings.whatsapp_label | escape }}</span>
+            </a>
+          {%- endif -%}
+
+          {%- if phone_raw != blank and section.settings.call_label != blank -%}
+            <a
+              href="tel:{{ phone_href }}"
+              class="contact-info__action contact-info__action--outline"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+              </svg>
+              <span>{{ section.settings.call_label | escape }}</span>
+            </a>
+          {%- endif -%}
+
+          {%- if email_clean != blank and section.settings.email_label != blank -%}
+            <a
+              href="mailto:{{ email_clean }}"
+              class="contact-info__action contact-info__action--outline"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect width="20" height="16" x="2" y="4" rx="1" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
+              <span>{{ section.settings.email_label | escape }}</span>
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.map_embed_url != blank -%}
+      <div class="contact-info__map-embed">
+        <iframe
+          src="{{ section.settings.map_embed_url | escape }}"
+          title="{{ section.settings.address_title | default: 'Store location map' | escape }}"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen
+        ></iframe>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-2xl);
+    width: 100%;
+  }
+
+  .contact-info__header {
+    text-align: center;
+    max-width: 44rem;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--gap-xs);
+  }
+
+  .contact-info__eyebrow {
+    margin: 0;
+    font-family: var(--font-h6--family);
+    font-size: var(--font-h6--size);
+    letter-spacing: var(--letter-spacing--heading-loose);
+    text-transform: uppercase;
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .contact-info__heading {
+    margin: 0;
+    font-family: var(--font-h2--family);
+    font-size: clamp(1.75rem, 3vw, var(--font-h2--size));
+    line-height: var(--line-height--heading-tight);
+    color: var(--color-foreground-heading);
+  }
+
+  .contact-info__subheading {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-size: var(--font-size--md);
+    line-height: var(--line-height--body-loose);
+    color: var(--color-foreground-muted);
+  }
+
+  .contact-info__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--gap-xl);
+  }
+
+  .contact-info__card {
+    background-color: var(--color-input-background);
+    border: 1px solid var(--color-border);
+    border-top: 3px solid var(--color-primary);
+    border-radius: var(--style-border-radius-inputs);
+    padding: var(--padding-3xl) var(--padding-2xl);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition:
+      transform var(--hover-transition-duration) var(--hover-transition-timing),
+      border-color var(--hover-transition-duration) var(--hover-transition-timing),
+      box-shadow var(--hover-transition-duration) var(--hover-transition-timing);
+  }
+
+  @media (hover: hover) {
+    .contact-info__card:hover {
+      transform: translateY(-4px);
+      border-color: var(--color-primary);
+      box-shadow: 0 14px 30px rgb(from var(--color-shadow) r g b / 0.08);
+    }
+  }
+
+  .contact-info__icon {
+    width: 52px;
+    height: 52px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgb(from var(--color-primary) r g b / 0.35);
+    background-color: var(--color-background);
+    color: var(--color-primary);
+    margin-bottom: var(--margin-lg);
+  }
+
+  .contact-info__icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .contact-info__card-title {
+    margin: 0 0 var(--margin-sm);
+    font-family: var(--font-h4--family);
+    font-size: var(--font-h4--size);
+    letter-spacing: var(--font-h4--letter-spacing);
+    text-transform: var(--font-h4--case);
+    color: var(--color-foreground-heading);
+    font-weight: 600;
+  }
+
+  .contact-info__card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--gap-2xs);
+    width: 100%;
+  }
+
+  .contact-info__link {
+    font-family: var(--font-body--family);
+    font-size: var(--font-size--lg);
+    font-weight: 500;
+    color: var(--color-foreground);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition:
+      color var(--animation-speed) var(--animation-easing),
+      border-color var(--animation-speed) var(--animation-easing);
+  }
+
+  .contact-info__link--email {
+    word-break: break-word;
+  }
+
+  .contact-info__link:hover {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+  }
+
+  .contact-info__address {
+    font-style: normal;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: var(--font-size--md);
+    line-height: var(--line-height--body-loose);
+    color: var(--color-foreground);
+  }
+
+  .contact-info__note {
+    margin: var(--margin-xs) 0 0;
+    font-size: var(--font-size--sm);
+    line-height: var(--line-height--body-normal);
+    color: var(--color-foreground-muted);
+  }
+
+  .contact-info__map-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: var(--margin-sm);
+    font-family: var(--font-h6--family);
+    font-size: var(--font-h6--size);
+    letter-spacing: var(--letter-spacing--heading-loose);
+    text-transform: uppercase;
+    color: var(--color-primary);
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+    transition: color var(--animation-speed) var(--animation-easing);
+  }
+
+  .contact-info__map-link:hover {
+    color: var(--color-primary-hover);
+  }
+
+  .contact-info__details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--gap-xl);
+  }
+
+  .contact-info__details-grid--single {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-info__detail-panel {
+    background-color: var(--color-input-background);
+    border: 1px solid var(--color-border);
+    padding: var(--padding-2xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-sm);
+  }
+
+  .contact-info__detail-header {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-sm);
+  }
+
+  .contact-info__detail-icon {
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgb(from var(--color-primary) r g b / 0.35);
+    background-color: var(--color-background);
+    color: var(--color-primary);
+    flex-shrink: 0;
+  }
+
+  .contact-info__detail-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .contact-info__detail-title {
+    margin: 0;
+    font-family: var(--font-h5--family);
+    font-size: var(--font-h5--size);
+    color: var(--color-foreground-heading);
+    font-weight: 600;
+  }
+
+  .contact-info__detail-rte {
+    font-size: var(--font-size--md);
+    line-height: var(--line-height--body-loose);
+    color: var(--color-foreground);
+  }
+
+  .contact-info__detail-rte p:first-child {
+    margin-top: 0;
+  }
+
+  .contact-info__detail-rte p:last-child {
+    margin-bottom: 0;
+  }
+
+  .contact-info__support {
+    background-color: var(--color-input-background);
+    border: 1px solid var(--color-primary);
+    padding: var(--padding-3xl);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--gap-2xl);
+  }
+
+  .contact-info__support-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-xs);
+    max-width: 38rem;
+  }
+
+  .contact-info__support-heading {
+    margin: 0;
+    font-family: var(--font-h3--family);
+    font-size: var(--font-h3--size);
+    line-height: var(--line-height--heading-tight);
+    color: var(--color-foreground-heading);
+  }
+
+  .contact-info__support-text {
+    font-size: var(--font-size--md);
+    line-height: var(--line-height--body-loose);
+    color: var(--color-foreground);
+  }
+
+  .contact-info__support-text p {
+    margin: 0;
+  }
+
+  .contact-info__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gap-sm);
+    flex-shrink: 0;
+  }
+
+  .contact-info__action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: var(--minimum-touch-target);
+    padding: 12px 22px;
+    font-family: var(--button-font-family-primary);
+    font-size: var(--font-size--sm);
+    font-weight: 600;
+    letter-spacing: var(--letter-spacing--heading-loose);
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: var(--style-border-radius-buttons-primary);
+    transition:
+      background-color var(--animation-speed) var(--animation-easing),
+      color var(--animation-speed) var(--animation-easing),
+      border-color var(--animation-speed) var(--animation-easing);
+  }
+
+  .contact-info__action svg {
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+  }
+
+  .contact-info__action--primary {
+    background-color: var(--color-primary-button-background);
+    color: var(--color-primary-button-text);
+    border: 2px solid var(--color-primary-button-background);
+  }
+
+  .contact-info__action--primary:hover {
+    background-color: var(--color-primary-hover);
+    border-color: var(--color-primary-hover);
+    color: var(--color-primary-button-hover-text);
+  }
+
+  .contact-info__action--outline {
+    background-color: transparent;
+    color: var(--color-foreground);
+    border: 2px solid var(--color-primary);
+  }
+
+  .contact-info__action--outline:hover {
+    background-color: var(--color-primary);
+    color: var(--color-primary-button-text);
+  }
+
+  .contact-info__map-embed {
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+    background-color: var(--color-input-background);
+  }
+
+  .contact-info__map-embed iframe {
+    display: block;
+    width: 100%;
+    height: 360px;
+    border: 0;
+  }
+
+  @media screen and (max-width: 1024px) {
+    .contact-info__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .contact-info__grid > :last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
+
+    .contact-info__support {
+      flex-direction: column;
+      text-align: center;
+      padding: var(--padding-2xl);
+    }
+
+    .contact-info__support-content {
+      align-items: center;
+    }
+
+    .contact-info__actions {
+      justify-content: center;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .contact-info {
+      gap: var(--gap-xl);
+    }
+
+    .contact-info__grid,
+    .contact-info__details-grid {
+      grid-template-columns: 1fr;
+      gap: var(--gap-md);
+    }
+
+    .contact-info__grid > :last-child:nth-child(odd) {
+      grid-column: auto;
+    }
+
+    .contact-info__card,
+    .contact-info__detail-panel,
+    .contact-info__support {
+      padding: var(--padding-2xl) var(--padding-lg);
+    }
+
+    .contact-info__actions {
+      width: 100%;
+      flex-direction: column;
+    }
+
+    .contact-info__action {
+      width: 100%;
+    }
+
+    .contact-info__map-embed iframe {
+      height: 280px;
+    }
+  }
+{% endstylesheet %}
 
 {% schema %}
 {
   "name": "Contact Information",
   "tag": "section",
-  "class": "contact-information-section",
-  "settings": [],
+  "class": "section-wrapper contact-information-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "Get In Touch"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Treasures by Tiara Concierge"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Questions about an order, custom jewellery sizing, or studio visits? Reach out directly through any of the channels below."
+    },
+    {
+      "type": "header",
+      "content": "Phone Details"
+    },
+    {
+      "type": "text",
+      "id": "phone_title",
+      "label": "Phone card title",
+      "default": "Call Us"
+    },
+    {
+      "type": "text",
+      "id": "phone_number",
+      "label": "Primary phone number",
+      "default": "+91 98675 59430"
+    },
+    {
+      "type": "text",
+      "id": "phone_number_secondary",
+      "label": "Secondary phone number (optional)"
+    },
+    {
+      "type": "text",
+      "id": "phone_note",
+      "label": "Phone note / timings",
+      "default": "Mon – Sat · 11:00 AM – 7:30 PM IST"
+    },
+    {
+      "type": "header",
+      "content": "Email Details"
+    },
+    {
+      "type": "text",
+      "id": "email_title",
+      "label": "Email card title",
+      "default": "Email Us"
+    },
+    {
+      "type": "text",
+      "id": "email_address",
+      "label": "Primary email address",
+      "default": "treasuresbytiara@gmail.com"
+    },
+    {
+      "type": "text",
+      "id": "email_address_secondary",
+      "label": "Secondary email address (optional)"
+    },
+    {
+      "type": "text",
+      "id": "email_note",
+      "label": "Email note",
+      "default": "We typically reply within 24 hours"
+    },
+    {
+      "type": "header",
+      "content": "Address Details"
+    },
+    {
+      "type": "text",
+      "id": "address_title",
+      "label": "Address card title",
+      "default": "Visit Us"
+    },
+    {
+      "type": "text",
+      "id": "address_line_1",
+      "label": "Address line 1",
+      "default": "Shop 008 New Poornima Apartment"
+    },
+    {
+      "type": "text",
+      "id": "address_line_2",
+      "label": "Address line 2",
+      "default": "S.R. Gopalrao Deshmukh Marg"
+    },
+    {
+      "type": "text",
+      "id": "address_line_3",
+      "label": "Address line 3 (City & Pincode)",
+      "default": "Mumbai – 400026"
+    },
+    {
+      "type": "text",
+      "id": "address_note",
+      "label": "Address note",
+      "default": "Walk-ins & private styling welcome"
+    },
+    {
+      "type": "text",
+      "id": "map_link_label",
+      "label": "Map link text",
+      "default": "Get Directions"
+    },
+    {
+      "type": "url",
+      "id": "map_link_url",
+      "label": "Custom Google Maps link (optional)",
+      "info": "Leave blank to automatically link to Google Maps using your address above."
+    },
+    {
+      "type": "text",
+      "id": "map_embed_url",
+      "label": "Google Maps embed URL (optional)",
+      "info": "Paste the iframe src URL from Google Maps Share > Embed a map to show a live map."
+    },
+    {
+      "type": "header",
+      "content": "Store Hours & Additional Details"
+    },
+    {
+      "type": "text",
+      "id": "hours_title",
+      "label": "Hours heading",
+      "default": "Studio & Support Hours"
+    },
+    {
+      "type": "richtext",
+      "id": "hours_text",
+      "label": "Hours details",
+      "default": "<p><strong>Monday – Saturday:</strong> 11:00 AM – 7:30 PM IST</p><p><strong>Sunday:</strong> Closed (Messages answered next business day)</p>"
+    },
+    {
+      "type": "text",
+      "id": "additional_title",
+      "label": "Additional info heading",
+      "default": "Bespoke & Order Support"
+    },
+    {
+      "type": "richtext",
+      "id": "additional_text",
+      "label": "Additional info details",
+      "default": "<p>Need assistance with custom sizing, bridal styling, or tracking an existing order? Include your order number or piece name for faster assistance.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Quick Support Banner"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_support_box",
+      "label": "Show quick support banner",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "support_heading",
+      "label": "Support heading",
+      "default": "Need Help?"
+    },
+    {
+      "type": "richtext",
+      "id": "support_text",
+      "label": "Support description",
+      "default": "<p>Have questions about your order, jewellery, or shipping? Our customer support team usually replies within <strong>24 hours</strong>.</p>"
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_number",
+      "label": "WhatsApp number (optional)",
+      "info": "Defaults to primary phone number if left blank.",
+      "default": "+91 98675 59430"
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_label",
+      "label": "WhatsApp button label",
+      "default": "WhatsApp"
+    },
+    {
+      "type": "text",
+      "id": "call_label",
+      "label": "Call button label",
+      "default": "Call Now"
+    },
+    {
+      "type": "text",
+      "id": "email_label",
+      "label": "Email button label",
+      "default": "Email Us"
+    },
+    {
+      "type": "header",
+      "content": "Appearance & Spacing"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page"
+        },
+        {
+          "value": "full-width",
+          "label": "Full"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    }
+  ],
   "presets": [
     {
       "name": "Contact Information"

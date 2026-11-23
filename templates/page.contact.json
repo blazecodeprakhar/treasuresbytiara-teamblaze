@@ -6,7 +6,8 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */{
+ */
+{
   "sections": {
     "main": {
       "type": "main-page",
@@ -15,18 +16,18 @@
           "type": "text",
           "name": "t:names.title",
           "settings": {
-            "text": "<h2>{{ closest.page.title }}</h2>",
+            "text": "<h1>{{ closest.page.title }}</h1>",
             "width": "100%",
             "max_width": "normal",
             "alignment": "center",
-            "type_preset": "rte",
+            "type_preset": "h2",
             "font": "var(--font-body--family)",
             "font_size": "",
             "line_height": "normal",
             "letter_spacing": "normal",
             "case": "none",
             "wrap": "pretty",
-            "color": "",
+            "color": "var(--color-foreground-heading)",
             "background": false,
             "background_color": "#00000026",
             "corner_radius": 0,
@@ -70,20 +71,111 @@
       ],
       "settings": {
         "content_direction": "column",
-        "gap": 32,
-        "color_scheme": "",
-        "padding-block-start": 40,
-        "padding-block-end": 0
+        "gap": 16,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 48,
+        "padding-block-end": 12
+      }
+    },
+    "contact_info": {
+      "type": "contact-info",
+      "settings": {
+        "eyebrow": "Get In Touch",
+        "heading": "Treasures by Tiara Concierge",
+        "subheading": "Questions about an order, custom jewellery sizing, or studio visits? Reach out directly through any of the channels below.",
+        "phone_title": "Call Us",
+        "phone_number": "+91 98675 59430",
+        "phone_number_secondary": "",
+        "phone_note": "Mon – Sat · 11:00 AM – 7:30 PM IST",
+        "email_title": "Email Us",
+        "email_address": "treasuresbytiara@gmail.com",
+        "email_address_secondary": "",
+        "email_note": "We typically reply within 24 hours",
+        "address_title": "Visit Us",
+        "address_line_1": "Shop 008 New Poornima Apartment",
+        "address_line_2": "S.R. Gopalrao Deshmukh Marg",
+        "address_line_3": "Mumbai – 400026",
+        "address_note": "Walk-ins & private styling welcome",
+        "map_link_label": "Get Directions",
+        "map_link_url": "",
+        "map_embed_url": "",
+        "hours_title": "Studio & Support Hours",
+        "hours_text": "<p><strong>Monday – Saturday:</strong> 11:00 AM – 7:30 PM IST</p><p><strong>Sunday:</strong> Closed (Messages answered next business day)</p>",
+        "additional_title": "Bespoke & Order Support",
+        "additional_text": "<p>Need assistance with custom sizing, bridal styling, or tracking an existing order? Include your order number or piece name for faster assistance.</p>",
+        "show_support_box": true,
+        "support_heading": "Need Help?",
+        "support_text": "<p>Have questions about your order, jewellery, or shipping? Our customer support team usually replies within <strong>24 hours</strong>.</p>",
+        "whatsapp_number": "+91 98675 59430",
+        "whatsapp_label": "WhatsApp",
+        "call_label": "Call Now",
+        "email_label": "Email Us",
+        "section_width": "page-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 16,
+        "padding-block-end": 36
       }
     },
     "form": {
       "type": "section",
       "blocks": {
+        "form_heading": {
+          "type": "text",
+          "name": "t:names.heading",
+          "settings": {
+            "text": "<h2>Send Us a Message</h2>",
+            "width": "100%",
+            "max_width": "normal",
+            "alignment": "center",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "form_subtext": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "<p>Share your inquiry, bespoke request, or order number and we will get back to you shortly.</p>",
+            "width": "100%",
+            "max_width": "normal",
+            "alignment": "center",
+            "type_preset": "paragraph",
+            "font": "var(--font-body--family)",
+            "font_size": "",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 8,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
         "contact_form_UwiCkQ": {
           "type": "contact-form",
           "settings": {
             "width": "custom",
-            "custom_width": 50,
+            "custom_width": 65,
             "width_mobile": "custom",
             "custom_width_mobile": 100,
             "inherit_color_scheme": true,
@@ -112,6 +204,8 @@
         }
       },
       "block_order": [
+        "form_heading",
+        "form_subtext",
         "contact_form_UwiCkQ"
       ],
       "name": "t:names.contact_form",
@@ -123,7 +217,7 @@
         "align_baseline": false,
         "horizontal_alignment_flex_direction_column": "center",
         "vertical_alignment_flex_direction_column": "center",
-        "gap": 32,
+        "gap": 20,
         "section_width": "page-width",
         "section_height": "",
         "section_height_custom": 50,
@@ -139,13 +233,14 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 0,
-        "padding-block-end": 70
+        "padding-block-start": 16,
+        "padding-block-end": 72
       }
     }
   },
   "order": [
     "main",
+    "contact_info",
     "form"
   ]
 }
